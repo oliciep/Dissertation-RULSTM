@@ -11,6 +11,8 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import json
+import torchmetrics
+
 pd.options.display.float_format = '{:05.2f}'.format
 
 parser = ArgumentParser(description="Training program for RULSTM")
@@ -41,10 +43,10 @@ parser.add_argument('--img_tmpl', type=str,
 parser.add_argument('--modality', type=str, default='rgb',
                     choices=['rgb', 'flow', 'obj', 'fusion'], help = "Modality. Rgb/flow/obj represent single branches, whereas fusion indicates the whole model with modality attention.")
 parser.add_argument('--sequence_completion', action='store_true',
-                    help='A flag to selec sequence completion pretraining rather than standard training.\
+                    help='A flag to select sequence completion pretraining rather than standard training.\
                             If not selected, a valid checkpoint for sequence completion pretraining\
                             should be available unless --ignore_checkpoints is specified')
-parser.add_argument('--mt5r', action='store_true')
+#parser.add_argument('--mt5r', action='store_true')
 
 parser.add_argument('--num_class', type=int, default=2513,
                     help='Number of classes')
@@ -57,12 +59,12 @@ parser.add_argument('--feats_in', type=int, nargs='+', default=[1024, 1024, 352]
 parser.add_argument('--dropout', type=float, default=0.8, help="Dropout rate")
 
 parser.add_argument('--batch_size', type=int, default=128, help="Batch Size")
-parser.add_argument('--num_workers', type=int, default=4,
+parser.add_argument('--num_workers', type=int, default=0,
                     help="Number of parallel thread to fetch the data")
 parser.add_argument('--lr', type=float, default=0.01, help="Learning rate")
 parser.add_argument('--momentum', type=float, default=0.9, help="Momentum")
 
-parser.add_argument('--display_every', type=int, default=10,
+parser.add_argument('--display_every', type=int, default=5,
                     help="Display every n iterations")
 parser.add_argument('--epochs', type=int, default=100, help="Training epochs")
 parser.add_argument('--visdom', action='store_true',
@@ -78,7 +80,15 @@ parser.add_argument('--ek100', action='store_true',
 
 parser.add_argument('--json_directory', type=str, default = None, help = 'Directory in which to save the generated jsons.')
 
+parser.add_argument('--use_future_samples', action='store_true', help='force sequence completion to use action frame')
+
+parser.add_argument('--meter', type=str, default='vm', help = 'value meter for selection of best epoch')
+
+parser.add_argument('--past_offset', type=float, default=0, help='shift start of encoding/anticipation these many seconds into the past')
+
 args = parser.parse_args()
+
+print('args', args)
 
 if args.mode == 'test' or args.mode=='validate_json':
     assert args.json_directory is not None
@@ -86,16 +96,18 @@ if args.mode == 'test' or args.mode=='validate_json':
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 if args.task == 'anticipation':
-    exp_name = f"RULSTM-{args.task}_{args.alpha}_{args.S_enc}_{args.S_ant}_{args.modality}"
+    if args.use_future_samples:
+        exp_name = f"RULSTM-{args.task}_{args.alpha}_{args.S_enc}_{args.S_ant}_h{args.hidden}_{args.modality}_future"
+    else:
+        exp_name = f"RULSTM-{args.task}_{args.alpha}_{args.S_enc}_{args.S_ant}_h{args.hidden}_{args.modality}_normal"
 else:
     exp_name = f"RULSTM-{args.task}_{args.alpha}_{args.S_ant}_{args.modality}"
 
-if args.mt5r:
+if args.meter == 'mt5r':
     exp_name += '_mt5r'
 
 if args.sequence_completion:
     exp_name += '_sequence_completion'
-
 
 if args.visdom:
     # if visdom is required
@@ -109,12 +121,14 @@ if args.visdom:
     # define a visdom saver to save the plots
     visdom_saver = VisdomSaver(envs=[exp_name])
 
+
 def get_loader(mode, override_modality = None):
     if override_modality:
         path_to_lmdb = join(args.path_to_data, override_modality)
     else:
         path_to_lmdb = join(args.path_to_data, args.modality) if args.modality != 'fusion' else [join(args.path_to_data, m) for m in ['rgb', 'flow', 'obj']]
 
+    print('get_loader: loader for mode', mode, '; path to lmdb', path_to_lmdb)
     kargs = {
         'path_to_lmdb': path_to_lmdb,
         'path_to_csv': join(args.path_to_data, f"{mode}.csv"),
@@ -124,15 +138,21 @@ def get_loader(mode, override_modality = None):
         'past_features': args.task == 'anticipation',
         'sequence_length': args.S_enc + args.S_ant,
         'label_type': ['verb', 'noun', 'action'] if args.mode != 'train' else 'action',
-        'challenge': 'test' in mode
+        'challenge': 'test' in mode,
+        'use_future_samples': args.use_future_samples,
+        'past_offset': args.past_offset
     }
+
+    print('get_loader: kargs', kargs)
 
     _set = SequenceDataset(**kargs)
 
     return DataLoader(_set, batch_size=args.batch_size, num_workers=args.num_workers,
                       pin_memory=True, shuffle=mode == 'training')
 
+
 def get_model():
+    print('get_model: modality:', args.modality, 'mode:', args.mode)
     if args.modality != 'fusion':  # single branch
         model = RULSTM(args.num_class, args.feat_in, args.hidden,
                        args.dropout, sequence_completion=args.sequence_completion)
@@ -140,7 +160,7 @@ def get_model():
         # and inf the flag --ignore_checkpoints has not been specified
         if args.mode == 'train' and not args.ignore_checkpoints and not args.sequence_completion:
             checkpoint = torch.load(join(
-                args.path_to_models, exp_name + '_sequence_completion_best.pth.tar'))['state_dict']
+                args.path_to_models, exp_name + '_sequence_completion_best.pth.tar'), map_location=torch.device('cpu'))['state_dict']
             model.load_state_dict(checkpoint)
     else:
         rgb_model = RULSTM(args.num_class, args.feats_in[0], args.hidden, args.dropout, return_context = args.task=='anticipation')
@@ -150,11 +170,11 @@ def get_model():
 
         if args.task=='early_recognition' or (args.mode == 'train' and not args.ignore_checkpoints):
             checkpoint_rgb = torch.load(join(args.path_to_models,\
-                    exp_name.replace('fusion','rgb') +'_best.pth.tar'))['state_dict']
+                    exp_name.replace('fusion','rgb') +'_best.pth.tar'), map_location=torch.device('cpu'))['state_dict']
             checkpoint_flow = torch.load(join(args.path_to_models,\
-                    exp_name.replace('fusion','flow') +'_best.pth.tar'))['state_dict']
+                    exp_name.replace('fusion','flow') +'_best.pth.tar'), map_location=torch.device('cpu'))['state_dict']
             checkpoint_obj = torch.load(join(args.path_to_models,\
-                    exp_name.replace('fusion','obj') +'_best.pth.tar'))['state_dict']
+                    exp_name.replace('fusion','obj') +'_best.pth.tar'), map_location=torch.device('cpu'))['state_dict']
 
             rgb_model.load_state_dict(checkpoint_rgb)
             flow_model.load_state_dict(checkpoint_flow)
@@ -170,9 +190,9 @@ def get_model():
 
 def load_checkpoint(model, best=False):
     if best:
-        chk = torch.load(join(args.path_to_models, exp_name + '_best.pth.tar'))
+        chk = torch.load(join(args.path_to_models, exp_name + '_best.pth.tar'), map_location=torch.device('cpu'))
     else:
-        chk = torch.load(join(args.path_to_models, exp_name + '.pth.tar'))
+        chk = torch.load(join(args.path_to_models, exp_name + '.pth.tar'), map_location=torch.device('cpu'))
 
     epoch = chk['epoch']
     best_perf = chk['best_perf']
@@ -212,6 +232,7 @@ def log(mode, epoch, loss_meter, accuracy_meter, best_perf=None, green=False):
     if args.visdom:
         visdom_loss_logger.log(epoch, loss_meter.value(), name=mode)
         visdom_accuracy_logger.log(epoch, accuracy_meter.value(), name=mode)
+
 
 def get_scores_early_recognition_fusion(models, loaders):
     verb_scores = 0
@@ -288,15 +309,25 @@ def get_scores(model, loader, challenge=False, include_discarded = False):
 
 def trainval(model, loaders, optimizer, epochs, start_epoch, start_best_perf):
     """Training/Validation code"""
+    print('trainval')
+    print('  trainval: model', model)
+    print('  trainval: loaders', loaders)
+    print('  trainval: optimizer', optimizer)
+    print('  trainval: epochs', epochs)
+    print('  trainval: start_epoch', start_epoch)
+    print('  trainval: start_best_perf', start_best_perf)
     best_perf = start_best_perf  # to keep track of the best performing epoch
     for epoch in range(start_epoch, epochs):
         # define training and validation meters
         loss_meter = {'training': ValueMeter(), 'validation': ValueMeter()}
-        if args.mt5r:
+        if args.meter == 'mt5r':
             accuracy_meter = {'training': MeanTopKRecallMeter(args.num_class), 'validation': MeanTopKRecallMeter(args.num_class)}
+        #elif args.meter == 'loss':
+        #    accuracy_meter = {'training': ArrayValueMeter(args.S_ant), 'validation': ArrayValueMeter(args.S_ant)}
         else:
             accuracy_meter = {'training': ValueMeter(), 'validation': ValueMeter()}
         for mode in ['training', 'validation']:
+            #print('  trainval: epoch', epoch, 'mode', mode)
             # enable gradients only if training
             with torch.set_grad_enabled(mode == 'training'):
                 if mode == 'training':
@@ -304,9 +335,19 @@ def trainval(model, loaders, optimizer, epochs, start_epoch, start_best_perf):
                 else:
                     model.eval()
 
+                #print(loaders[mode][0])
+
+                #a, b = next(iter(loaders[mode]))
+                #print(f"Feature batch shape: {a.size()}")
+                #print(f"Labels batch shape: {b.size()}")
+
                 for i, batch in enumerate(loaders[mode]):
+                    #print('    trainval: epoch', epoch, 'batch', i, '/', len(loaders[mode]))
                     x = batch['past_features' if args.task ==
                               'anticipation' else 'action_features']
+                    #print(type(batch))
+                    #print(type(x))
+                    #print(x.dim(), x.element_size(), x.numel(), x.size())
 
                     if type(x) == list:
                         x = [xx.to(device) for xx in x]
@@ -340,9 +381,11 @@ def trainval(model, loaders, optimizer, epochs, start_epoch, start_best_perf):
 
                     # store the values in the meters to keep incremental averages
                     loss_meter[mode].add(loss.item(), bs)
-                    if args.mt5r:
+                    if args.meter == 'mt5r':
                         accuracy_meter[mode].add(preds[:, idx, :].detach().cpu().numpy(),
                                                  y.detach().cpu().numpy())
+                    elif args.meter == 'iloss':
+                        accuracy_meter[mode].add(1/loss_meter[mode].value(), bs)
                     else:
                         accuracy_meter[mode].add(acc, bs)
 
@@ -365,6 +408,8 @@ def trainval(model, loaders, optimizer, epochs, start_epoch, start_best_perf):
                     max(accuracy_meter[mode].value(), best_perf) if mode == 'validation'
                     else None, green=True)
 
+        #print(f"val accuracy: {accuracy_meter['validation'].value()}")
+
         if best_perf < accuracy_meter['validation'].value():
             best_perf = accuracy_meter['validation'].value()
             is_best = True
@@ -375,6 +420,7 @@ def trainval(model, loaders, optimizer, epochs, start_epoch, start_best_perf):
         save_model(model, epoch+1, accuracy_meter['validation'].value(), best_perf,
                    is_best=is_best)
 
+
 def get_validation_ids():
     unseen_participants_ids = pd.read_csv(join(args.path_to_data, 'validation_unseen_participants_ids.csv'), names=['id'], squeeze=True)
     tail_verbs_ids = pd.read_csv(join(args.path_to_data, 'validation_tail_verbs_ids.csv'), names=['id'], squeeze=True)
@@ -382,6 +428,7 @@ def get_validation_ids():
     tail_actions_ids = pd.read_csv(join(args.path_to_data, 'validation_tail_actions_ids.csv'), names=['id'], squeeze=True)
 
     return unseen_participants_ids, tail_verbs_ids, tail_nouns_ids, tail_actions_ids
+
 
 def get_many_shot():
     """Get many shot verbs, nouns and actions for class-aware metrics (Mean Top-5 Recall)"""
@@ -412,12 +459,16 @@ def get_many_shot():
 def main():
     model = get_model()
     if type(model) == list:
+        print('main: models with device', device)
         model = [m.to(device) for m in model]
     else:
+        print('main: model with device', device)
         model.to(device)
 
     if args.mode == 'train':
+        print('main: training')
         loaders = {m: get_loader(m) for m in ['training', 'validation']}
+        print('main: loaders', loaders)
 
         if args.resume:
             start_epoch, _, start_best_perf = load_checkpoint(model)
@@ -425,9 +476,10 @@ def main():
             start_epoch = 0
             start_best_perf = 0
 
-        optimizer = torch.optim.SGD(
-            model.parameters(), lr=args.lr, momentum=args.momentum)
+        optimizer = torch.optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
+        print('main: optimizer', optimizer)
 
+        print('running trainval')
         trainval(model, loaders, optimizer, args.epochs,
                  start_epoch, start_best_perf)
 

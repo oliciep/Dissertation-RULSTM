@@ -24,6 +24,8 @@ class MeanTopKRecallMeter(object):
             return recalls.mean()*100
         else:
             return None
+
+
 class ValueMeter(object):
     def __init__(self):
         self.sum = 0

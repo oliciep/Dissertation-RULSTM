@@ -58,6 +58,9 @@ class RULSTM(nn.Module):
         self.classifier = nn.Sequential(nn.Dropout(dropout), nn.Linear(hidden, num_class))
         self.sequence_completion = sequence_completion
         self.return_context = return_context
+        print('model: num_class', num_class, ', feat_in', feat_in, 'hidden', hidden,
+              'dropout', dropout, 'depth', depth, 'sequence_completion', sequence_completion,
+              'return_context',return_context)
 
     def forward(self, inputs):
         # permute the inputs for compatibility with the LSTM
@@ -78,6 +81,7 @@ class RULSTM(nn.Module):
             hid = x[t,...]
             cel = c[t,...]
 
+            # leszek: need to figure out what to select here to repeat future frame!
             if self.sequence_completion:
                 # take current + future inputs (looks into the future)
                 ins = inputs[t:,...]
