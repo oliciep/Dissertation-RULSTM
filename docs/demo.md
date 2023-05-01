@@ -23,12 +23,12 @@ for each epoch it alternates between training and validation
 - creates performance (loss and accuracy) meters
 - in training mode enables gradient calculation
 - then iterates throuhg batches of training samples and
-	-- applies forward step of the model to generate predictions
-	-- calculates and logs loss and other accuracy measures
-	-- in training mode it further
-		--- resets gradient
-		--- recalulates them by calling backward() function
-		--- updates weights and biases by calling optimiser step() function
+	* applies forward step of the model to generate predictions
+	* calculates and logs loss and other accuracy measures
+	* in training mode it further
+		+ resets gradient
+		+ recalulates them by calling backward() function
+		+ updates weights and biases by calling optimiser step() function
 
 Example script for running simulation: runpast.sh
 -------------------------------------------------
