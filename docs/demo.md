@@ -25,3 +25,11 @@ for each epoch it alternates between training and validation
 --- recalulates them by calling backward() function
 --- updates weights and biases by calling optimiser step() function
 
+** Example script for running simulation: RULSTM/runpast.sh
+- run pre-training, training, validation for all modalities
+- run fusion training followed by validation
+
+** Example output: RUULSTM/outexample.log
+- output of training
+- table produced by validation, which contains info that was used to create results tables and graphs
+
