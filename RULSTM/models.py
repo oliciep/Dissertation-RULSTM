@@ -81,7 +81,7 @@ class RULSTM(nn.Module):
             hid = x[t,...]
             cel = c[t,...]
 
-            # leszek: need to figure out what to select here to repeat future frame!
+            # todo: need to figure out what to select here to repeat future frame!
             if self.sequence_completion:
                 # take current + future inputs (looks into the future)
                 ins = inputs[t:,...]

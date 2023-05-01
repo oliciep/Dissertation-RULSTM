@@ -1,0 +1,1151 @@
+nohup: ignoring input
+
+Fri Apr  7 21:30:11 UTC 2023
+scp:rgb:256:100:234:past_offset=0
+args Namespace(mode='train', path_to_data='data/ek55', path_to_models='models/ek55', alpha=0.25, S_enc=6, S_ant=8, task='anticipation', img_tmpl='frame_{:010d}.jpg', modality='rgb', sequence_completion=True, num_class=234, hidden=256, feat_in=1024, feats_in=[1024, 1024, 352], dropout=0.8, batch_size=128, num_workers=0, lr=0.01, momentum=0.9, display_every=5, epochs=100, visdom=False, ignore_checkpoints=False, resume=False, ek100=False, json_directory=None, use_future_samples=False, meter='vm', past_offset=0.0)
+get_model: modality: rgb mode: train
+model: num_class 234 , feat_in 1024 hidden 256 dropout 0.8 depth 1 sequence_completion True return_context False
+main: model with device cuda
+main: training
+get_loader: loader for mode training ; path to lmdb data/ek55/rgb
+get_loader: kargs {'path_to_lmdb': 'data/ek55/rgb', 'path_to_csv': 'data/ek55/training.csv', 'time_step': 0.25, 'img_tmpl': 'frame_{:010d}.jpg', 'action_samples': None, 'past_features': True, 'sequence_length': 14, 'label_type': 'action', 'challenge': False, 'use_future_samples': False, 'past_offset': 0.0}
+dataset init
+Populating Dataset:   0%|          | 0/2349 [00:00<?, ?it/s]Populating Dataset:  34%|███▍      | 793/2349 [00:00<00:00, 7925.25it/s]Populating Dataset:  68%|██████▊   | 1602/2349 [00:00<00:00, 8018.05it/s]Populating Dataset: 100%|██████████| 2349/2349 [00:00<00:00, 8042.40it/s]
+ds populate lists done; discarded 1 sequences
+dataset init done
+get_loader: loader for mode validation ; path to lmdb data/ek55/rgb
+get_loader: kargs {'path_to_lmdb': 'data/ek55/rgb', 'path_to_csv': 'data/ek55/validation.csv', 'time_step': 0.25, 'img_tmpl': 'frame_{:010d}.jpg', 'action_samples': None, 'past_features': True, 'sequence_length': 14, 'label_type': 'action', 'challenge': False, 'use_future_samples': False, 'past_offset': 0.0}
+dataset init
+Populating Dataset:   0%|          | 0/497 [00:00<?, ?it/s]Populating Dataset: 100%|██████████| 497/497 [00:00<00:00, 8173.15it/s]
+ds populate lists done; discarded 2 sequences
+dataset init done
+main: loaders {'training': <torch.utils.data.dataloader.DataLoader object at 0x7f7032c3a8c0>, 'validation': <torch.utils.data.dataloader.DataLoader object at 0x7f7032c3aec0>}
+main: optimizer SGD (
+Parameter Group 0
+    dampening: 0
+    differentiable: False
+    foreach: None
+    lr: 0.01
+    maximize: False
+    momentum: 0.9
+    nesterov: False
+    weight_decay: 0
+)
+running trainval
+trainval
+  trainval: model RULSTM(
+  (dropout): Dropout(p=0.8, inplace=False)
+  (rolling_lstm): OpenLSTM(
+    (lstm): LSTM(1024, 256)
+  )
+  (unrolling_lstm): LSTM(1024, 256)
+  (classifier): Sequential(
+    (0): Dropout(p=0.8, inplace=False)
+    (1): Linear(in_features=256, out_features=234, bias=True)
+  )
+)
+  trainval: loaders {'training': <torch.utils.data.dataloader.DataLoader object at 0x7f7032c3a8c0>, 'validation': <torch.utils.data.dataloader.DataLoader object at 0x7f7032c3aec0>}
+  trainval: optimizer SGD (
+Parameter Group 0
+    dampening: 0
+    differentiable: False
+    foreach: None
+    lr: 0.01
+    maximize: False
+    momentum: 0.9
+    nesterov: False
+    weight_decay: 0
+)
+  trainval: epochs 100
+  trainval: start_epoch 0
+  trainval: start_best_perf 0
+[training] Epoch: 0.26. Loss: 5.55. Accuracy: 2.08% [0m
+[training] Epoch: 0.53. Loss: 5.55. Accuracy: 2.70% [0m
+[training] Epoch: 0.79. Loss: 5.54. Accuracy: 2.44% [0m
+[92m[training] Epoch: 1.00. Loss: 5.54. Accuracy: 2.64% [0m
+[92m[validation] Epoch: 1.00. Loss: 5.43. Accuracy: 5.86% [best: 5.86]%[0m
+[training] Epoch: 1.26. Loss: 5.51. Accuracy: 2.73% [0m
+[training] Epoch: 1.53. Loss: 5.50. Accuracy: 2.63% [0m
+[training] Epoch: 1.79. Loss: 5.49. Accuracy: 2.64% [0m
+[92m[training] Epoch: 2.00. Loss: 5.48. Accuracy: 2.77% [0m
+[92m[validation] Epoch: 2.00. Loss: 5.37. Accuracy: 11.52% [best: 11.52]%[0m
+[training] Epoch: 2.26. Loss: 5.42. Accuracy: 4.95% [0m
+[training] Epoch: 2.53. Loss: 5.41. Accuracy: 5.68% [0m
+[training] Epoch: 2.79. Loss: 5.41. Accuracy: 5.32% [0m
+[92m[training] Epoch: 3.00. Loss: 5.40. Accuracy: 5.88% [0m
+[92m[validation] Epoch: 3.00. Loss: 5.32. Accuracy: 11.72% [best: 11.72]%[0m
+[training] Epoch: 3.26. Loss: 5.35. Accuracy: 6.64% [0m
+[training] Epoch: 3.53. Loss: 5.34. Accuracy: 7.60% [0m
+[training] Epoch: 3.79. Loss: 5.32. Accuracy: 7.71% [0m
+[92m[training] Epoch: 4.00. Loss: 5.32. Accuracy: 7.92% [0m
+[92m[validation] Epoch: 4.00. Loss: 5.26. Accuracy: 11.72% [best: 11.72]%[0m
+[training] Epoch: 4.26. Loss: 5.26. Accuracy: 9.24% [0m
+[training] Epoch: 4.53. Loss: 5.25. Accuracy: 11.36% [0m
+[training] Epoch: 4.79. Loss: 5.23. Accuracy: 11.96% [0m
+[92m[training] Epoch: 5.00. Loss: 5.22. Accuracy: 12.22% [0m
+[92m[validation] Epoch: 5.00. Loss: 5.21. Accuracy: 11.31% [best: 11.72]%[0m
+[training] Epoch: 5.26. Loss: 5.15. Accuracy: 13.67% [0m
+[training] Epoch: 5.53. Loss: 5.13. Accuracy: 14.20% [0m
+[training] Epoch: 5.79. Loss: 5.12. Accuracy: 14.31% [0m
+[92m[training] Epoch: 6.00. Loss: 5.11. Accuracy: 14.65% [0m
+[92m[validation] Epoch: 6.00. Loss: 5.21. Accuracy: 10.10% [best: 11.72]%[0m
+[training] Epoch: 6.26. Loss: 5.05. Accuracy: 17.06% [0m
+[training] Epoch: 6.53. Loss: 5.04. Accuracy: 16.83% [0m
+[training] Epoch: 6.79. Loss: 5.00. Accuracy: 16.65% [0m
+[92m[training] Epoch: 7.00. Loss: 5.00. Accuracy: 16.61% [0m
+[92m[validation] Epoch: 7.00. Loss: 5.26. Accuracy: 10.51% [best: 11.72]%[0m
+[training] Epoch: 7.26. Loss: 4.93. Accuracy: 17.32% [0m
+[training] Epoch: 7.53. Loss: 4.93. Accuracy: 16.62% [0m
+[training] Epoch: 7.79. Loss: 4.90. Accuracy: 16.99% [0m
+[92m[training] Epoch: 8.00. Loss: 4.90. Accuracy: 17.04% [0m
+[92m[validation] Epoch: 8.00. Loss: 5.35. Accuracy: 10.71% [best: 11.72]%[0m
+[training] Epoch: 8.26. Loss: 4.85. Accuracy: 18.10% [0m
+[training] Epoch: 8.53. Loss: 4.81. Accuracy: 18.25% [0m
+[training] Epoch: 8.79. Loss: 4.83. Accuracy: 17.48% [0m
+[92m[training] Epoch: 9.00. Loss: 4.82. Accuracy: 17.80% [0m
+[92m[validation] Epoch: 9.00. Loss: 5.42. Accuracy: 11.31% [best: 11.72]%[0m
+[training] Epoch: 9.26. Loss: 4.79. Accuracy: 17.45% [0m
+[training] Epoch: 9.53. Loss: 4.75. Accuracy: 18.25% [0m
+[training] Epoch: 9.79. Loss: 4.75. Accuracy: 17.92% [0m
+[92m[training] Epoch: 10.00. Loss: 4.74. Accuracy: 17.97% [0m
+[92m[validation] Epoch: 10.00. Loss: 5.47. Accuracy: 13.13% [best: 13.13]%[0m
+[training] Epoch: 10.26. Loss: 4.68. Accuracy: 20.05% [0m
+[training] Epoch: 10.53. Loss: 4.68. Accuracy: 20.03% [0m
+[training] Epoch: 10.79. Loss: 4.69. Accuracy: 19.24% [0m
+[92m[training] Epoch: 11.00. Loss: 4.70. Accuracy: 19.38% [0m
+[92m[validation] Epoch: 11.00. Loss: 5.53. Accuracy: 13.54% [best: 13.54]%[0m
+[training] Epoch: 11.26. Loss: 4.67. Accuracy: 19.92% [0m
+[training] Epoch: 11.53. Loss: 4.67. Accuracy: 20.45% [0m
+[training] Epoch: 11.79. Loss: 4.65. Accuracy: 19.82% [0m
+[92m[training] Epoch: 12.00. Loss: 4.65. Accuracy: 19.89% [0m
+[92m[validation] Epoch: 12.00. Loss: 5.55. Accuracy: 15.15% [best: 15.15]%[0m
+[training] Epoch: 12.26. Loss: 4.61. Accuracy: 21.35% [0m
+[training] Epoch: 12.53. Loss: 4.61. Accuracy: 21.16% [0m
+[training] Epoch: 12.79. Loss: 4.61. Accuracy: 20.85% [0m
+[92m[training] Epoch: 13.00. Loss: 4.61. Accuracy: 21.08% [0m
+[92m[validation] Epoch: 13.00. Loss: 5.58. Accuracy: 15.76% [best: 15.76]%[0m
+[training] Epoch: 13.26. Loss: 4.54. Accuracy: 25.00% [0m
+[training] Epoch: 13.53. Loss: 4.56. Accuracy: 23.93% [0m
+[training] Epoch: 13.79. Loss: 4.57. Accuracy: 23.58% [0m
+[92m[training] Epoch: 14.00. Loss: 4.56. Accuracy: 24.11% [0m
+[92m[validation] Epoch: 14.00. Loss: 5.61. Accuracy: 16.16% [best: 16.16]%[0m
+[training] Epoch: 14.26. Loss: 4.50. Accuracy: 26.17% [0m
+[training] Epoch: 14.53. Loss: 4.52. Accuracy: 24.72% [0m
+[training] Epoch: 14.79. Loss: 4.53. Accuracy: 24.12% [0m
+[92m[training] Epoch: 15.00. Loss: 4.53. Accuracy: 24.11% [0m
+[92m[validation] Epoch: 15.00. Loss: 5.63. Accuracy: 17.37% [best: 17.37]%[0m
+[training] Epoch: 15.26. Loss: 4.43. Accuracy: 24.61% [0m
+[training] Epoch: 15.53. Loss: 4.49. Accuracy: 23.79% [0m
+[training] Epoch: 15.79. Loss: 4.49. Accuracy: 23.83% [0m
+[92m[training] Epoch: 16.00. Loss: 4.49. Accuracy: 24.28% [0m
+[92m[validation] Epoch: 16.00. Loss: 5.66. Accuracy: 17.37% [best: 17.37]%[0m
+[training] Epoch: 16.26. Loss: 4.39. Accuracy: 27.60% [0m
+[training] Epoch: 16.53. Loss: 4.45. Accuracy: 24.57% [0m
+[training] Epoch: 16.79. Loss: 4.45. Accuracy: 25.29% [0m
+[92m[training] Epoch: 17.00. Loss: 4.45. Accuracy: 25.43% [0m
+[92m[validation] Epoch: 17.00. Loss: 5.66. Accuracy: 17.78% [best: 17.78]%[0m
+[training] Epoch: 17.26. Loss: 4.42. Accuracy: 24.61% [0m
+[training] Epoch: 17.53. Loss: 4.40. Accuracy: 25.78% [0m
+[training] Epoch: 17.79. Loss: 4.42. Accuracy: 25.63% [0m
+[92m[training] Epoch: 18.00. Loss: 4.41. Accuracy: 25.89% [0m
+[92m[validation] Epoch: 18.00. Loss: 5.67. Accuracy: 18.59% [best: 18.59]%[0m
+[training] Epoch: 18.26. Loss: 4.32. Accuracy: 28.52% [0m
+[training] Epoch: 18.53. Loss: 4.37. Accuracy: 26.99% [0m
+[training] Epoch: 18.79. Loss: 4.38. Accuracy: 26.12% [0m
+[92m[training] Epoch: 19.00. Loss: 4.37. Accuracy: 26.36% [0m
+[92m[validation] Epoch: 19.00. Loss: 5.67. Accuracy: 18.79% [best: 18.79]%[0m
+[training] Epoch: 19.26. Loss: 4.39. Accuracy: 27.60% [0m
+[training] Epoch: 19.53. Loss: 4.35. Accuracy: 28.12% [0m
+[training] Epoch: 19.79. Loss: 4.34. Accuracy: 28.47% [0m
+[92m[training] Epoch: 20.00. Loss: 4.34. Accuracy: 28.19% [0m
+[92m[validation] Epoch: 20.00. Loss: 5.67. Accuracy: 19.60% [best: 19.60]%[0m
+[training] Epoch: 20.26. Loss: 4.32. Accuracy: 28.26% [0m
+[training] Epoch: 20.53. Loss: 4.29. Accuracy: 27.91% [0m
+[training] Epoch: 20.79. Loss: 4.30. Accuracy: 28.32% [0m
+[92m[training] Epoch: 21.00. Loss: 4.30. Accuracy: 28.32% [0m
+[92m[validation] Epoch: 21.00. Loss: 5.69. Accuracy: 20.00% [best: 20.00]%[0m
+[training] Epoch: 21.26. Loss: 4.26. Accuracy: 30.60% [0m
+[training] Epoch: 21.53. Loss: 4.27. Accuracy: 31.04% [0m
+[training] Epoch: 21.79. Loss: 4.28. Accuracy: 30.86% [0m
+[92m[training] Epoch: 22.00. Loss: 4.26. Accuracy: 30.71% [0m
+[92m[validation] Epoch: 22.00. Loss: 5.68. Accuracy: 20.61% [best: 20.61]%[0m
+[training] Epoch: 22.26. Loss: 4.24. Accuracy: 30.34% [0m
+[training] Epoch: 22.53. Loss: 4.23. Accuracy: 30.26% [0m
+[training] Epoch: 22.79. Loss: 4.23. Accuracy: 30.66% [0m
+[92m[training] Epoch: 23.00. Loss: 4.24. Accuracy: 30.41% [0m
+[92m[validation] Epoch: 23.00. Loss: 5.70. Accuracy: 20.81% [best: 20.81]%[0m
+[training] Epoch: 23.26. Loss: 4.17. Accuracy: 32.16% [0m
+[training] Epoch: 23.53. Loss: 4.17. Accuracy: 32.60% [0m
+[training] Epoch: 23.79. Loss: 4.18. Accuracy: 32.76% [0m
+[92m[training] Epoch: 24.00. Loss: 4.19. Accuracy: 32.03% [0m
+[92m[validation] Epoch: 24.00. Loss: 5.69. Accuracy: 20.81% [best: 20.81]%[0m
+[training] Epoch: 24.26. Loss: 4.18. Accuracy: 31.25% [0m
+[training] Epoch: 24.53. Loss: 4.16. Accuracy: 32.32% [0m
+[training] Epoch: 24.79. Loss: 4.17. Accuracy: 32.81% [0m
+[92m[training] Epoch: 25.00. Loss: 4.16. Accuracy: 32.92% [0m
+[92m[validation] Epoch: 25.00. Loss: 5.66. Accuracy: 20.81% [best: 20.81]%[0m
+[training] Epoch: 25.26. Loss: 4.14. Accuracy: 32.81% [0m
+[training] Epoch: 25.53. Loss: 4.13. Accuracy: 32.17% [0m
+[training] Epoch: 25.79. Loss: 4.13. Accuracy: 33.35% [0m
+[92m[training] Epoch: 26.00. Loss: 4.13. Accuracy: 32.88% [0m
+[92m[validation] Epoch: 26.00. Loss: 5.66. Accuracy: 21.41% [best: 21.41]%[0m
+[training] Epoch: 26.26. Loss: 4.11. Accuracy: 31.51% [0m
+[training] Epoch: 26.53. Loss: 4.11. Accuracy: 32.03% [0m
+[training] Epoch: 26.79. Loss: 4.10. Accuracy: 32.42% [0m
+[92m[training] Epoch: 27.00. Loss: 4.09. Accuracy: 33.56% [0m
+[92m[validation] Epoch: 27.00. Loss: 5.66. Accuracy: 21.41% [best: 21.41]%[0m
+[training] Epoch: 27.26. Loss: 4.04. Accuracy: 35.68% [0m
+[training] Epoch: 27.53. Loss: 4.07. Accuracy: 33.66% [0m
+[training] Epoch: 27.79. Loss: 4.08. Accuracy: 33.84% [0m
+[92m[training] Epoch: 28.00. Loss: 4.06. Accuracy: 34.28% [0m
+[92m[validation] Epoch: 28.00. Loss: 5.65. Accuracy: 21.41% [best: 21.41]%[0m
+[training] Epoch: 28.26. Loss: 4.06. Accuracy: 33.85% [0m
+[training] Epoch: 28.53. Loss: 4.05. Accuracy: 34.45% [0m
+[training] Epoch: 28.79. Loss: 4.04. Accuracy: 35.21% [0m
+[92m[training] Epoch: 29.00. Loss: 4.02. Accuracy: 35.39% [0m
+[92m[validation] Epoch: 29.00. Loss: 5.63. Accuracy: 22.83% [best: 22.83]%[0m
+[training] Epoch: 29.26. Loss: 4.01. Accuracy: 35.55% [0m
+[training] Epoch: 29.53. Loss: 4.00. Accuracy: 35.58% [0m
+[training] Epoch: 29.79. Loss: 4.00. Accuracy: 36.08% [0m
+[92m[training] Epoch: 30.00. Loss: 3.99. Accuracy: 35.95% [0m
+[92m[validation] Epoch: 30.00. Loss: 5.64. Accuracy: 22.83% [best: 22.83]%[0m
+[training] Epoch: 30.26. Loss: 3.97. Accuracy: 34.90% [0m
+[training] Epoch: 30.53. Loss: 3.96. Accuracy: 36.65% [0m
+[training] Epoch: 30.79. Loss: 3.97. Accuracy: 36.18% [0m
+[92m[training] Epoch: 31.00. Loss: 3.96. Accuracy: 36.50% [0m
+[92m[validation] Epoch: 31.00. Loss: 5.62. Accuracy: 24.04% [best: 24.04]%[0m
+[training] Epoch: 31.26. Loss: 3.96. Accuracy: 35.68% [0m
+[training] Epoch: 31.53. Loss: 3.95. Accuracy: 35.87% [0m
+[training] Epoch: 31.79. Loss: 3.93. Accuracy: 37.55% [0m
+[92m[training] Epoch: 32.00. Loss: 3.93. Accuracy: 37.65% [0m
+[92m[validation] Epoch: 32.00. Loss: 5.60. Accuracy: 23.84% [best: 24.04]%[0m
+[training] Epoch: 32.26. Loss: 3.88. Accuracy: 39.71% [0m
+[training] Epoch: 32.53. Loss: 3.92. Accuracy: 38.57% [0m
+[training] Epoch: 32.79. Loss: 3.90. Accuracy: 38.48% [0m
+[92m[training] Epoch: 33.00. Loss: 3.91. Accuracy: 38.54% [0m
+[92m[validation] Epoch: 33.00. Loss: 5.60. Accuracy: 25.05% [best: 25.05]%[0m
+[training] Epoch: 33.26. Loss: 3.85. Accuracy: 39.97% [0m
+[training] Epoch: 33.53. Loss: 3.82. Accuracy: 40.77% [0m
+[training] Epoch: 33.79. Loss: 3.86. Accuracy: 39.45% [0m
+[92m[training] Epoch: 34.00. Loss: 3.87. Accuracy: 39.69% [0m
+[92m[validation] Epoch: 34.00. Loss: 5.59. Accuracy: 24.85% [best: 25.05]%[0m
+[training] Epoch: 34.26. Loss: 3.92. Accuracy: 38.02% [0m
+[training] Epoch: 34.53. Loss: 3.87. Accuracy: 39.06% [0m
+[training] Epoch: 34.79. Loss: 3.83. Accuracy: 40.53% [0m
+[92m[training] Epoch: 35.00. Loss: 3.85. Accuracy: 40.12% [0m
+[92m[validation] Epoch: 35.00. Loss: 5.57. Accuracy: 26.06% [best: 26.06]%[0m
+[training] Epoch: 35.26. Loss: 3.78. Accuracy: 41.67% [0m
+[training] Epoch: 35.53. Loss: 3.84. Accuracy: 40.34% [0m
+[training] Epoch: 35.79. Loss: 3.81. Accuracy: 41.31% [0m
+[92m[training] Epoch: 36.00. Loss: 3.81. Accuracy: 41.10% [0m
+[92m[validation] Epoch: 36.00. Loss: 5.56. Accuracy: 25.45% [best: 26.06]%[0m
+[training] Epoch: 36.26. Loss: 3.73. Accuracy: 42.32% [0m
+[training] Epoch: 36.53. Loss: 3.77. Accuracy: 41.05% [0m
+[training] Epoch: 36.79. Loss: 3.77. Accuracy: 41.26% [0m
+[92m[training] Epoch: 37.00. Loss: 3.78. Accuracy: 40.33% [0m
+[92m[validation] Epoch: 37.00. Loss: 5.54. Accuracy: 26.26% [best: 26.26]%[0m
+[training] Epoch: 37.26. Loss: 3.69. Accuracy: 42.58% [0m
+[training] Epoch: 37.53. Loss: 3.73. Accuracy: 42.54% [0m
+[training] Epoch: 37.79. Loss: 3.74. Accuracy: 42.53% [0m
+[92m[training] Epoch: 38.00. Loss: 3.74. Accuracy: 42.67% [0m
+[92m[validation] Epoch: 38.00. Loss: 5.54. Accuracy: 26.67% [best: 26.67]%[0m
+[training] Epoch: 38.26. Loss: 3.74. Accuracy: 43.62% [0m
+[training] Epoch: 38.53. Loss: 3.75. Accuracy: 43.25% [0m
+[training] Epoch: 38.79. Loss: 3.71. Accuracy: 44.48% [0m
+[92m[training] Epoch: 39.00. Loss: 3.72. Accuracy: 44.04% [0m
+[92m[validation] Epoch: 39.00. Loss: 5.53. Accuracy: 26.06% [best: 26.67]%[0m
+[training] Epoch: 39.26. Loss: 3.74. Accuracy: 43.10% [0m
+[training] Epoch: 39.53. Loss: 3.72. Accuracy: 44.03% [0m
+[training] Epoch: 39.79. Loss: 3.68. Accuracy: 44.34% [0m
+[92m[training] Epoch: 40.00. Loss: 3.69. Accuracy: 44.04% [0m
+[92m[validation] Epoch: 40.00. Loss: 5.51. Accuracy: 26.67% [best: 26.67]%[0m
+[training] Epoch: 40.26. Loss: 3.65. Accuracy: 45.18% [0m
+[training] Epoch: 40.53. Loss: 3.62. Accuracy: 44.74% [0m
+[training] Epoch: 40.79. Loss: 3.66. Accuracy: 44.04% [0m
+[92m[training] Epoch: 41.00. Loss: 3.67. Accuracy: 43.91% [0m
+[92m[validation] Epoch: 41.00. Loss: 5.52. Accuracy: 26.87% [best: 26.87]%[0m
+[training] Epoch: 41.26. Loss: 3.67. Accuracy: 44.92% [0m
+[training] Epoch: 41.53. Loss: 3.62. Accuracy: 45.53% [0m
+[training] Epoch: 41.79. Loss: 3.62. Accuracy: 45.75% [0m
+[92m[training] Epoch: 42.00. Loss: 3.63. Accuracy: 45.53% [0m
+[92m[validation] Epoch: 42.00. Loss: 5.51. Accuracy: 26.87% [best: 26.87]%[0m
+[training] Epoch: 42.26. Loss: 3.61. Accuracy: 46.48% [0m
+[training] Epoch: 42.53. Loss: 3.63. Accuracy: 44.39% [0m
+[training] Epoch: 42.79. Loss: 3.61. Accuracy: 44.78% [0m
+[92m[training] Epoch: 43.00. Loss: 3.62. Accuracy: 44.72% [0m
+[92m[validation] Epoch: 43.00. Loss: 5.50. Accuracy: 26.87% [best: 26.87]%[0m
+[training] Epoch: 43.26. Loss: 3.62. Accuracy: 48.05% [0m
+[training] Epoch: 43.53. Loss: 3.58. Accuracy: 48.30% [0m
+[training] Epoch: 43.79. Loss: 3.60. Accuracy: 47.02% [0m
+[92m[training] Epoch: 44.00. Loss: 3.59. Accuracy: 47.19% [0m
+[92m[validation] Epoch: 44.00. Loss: 5.49. Accuracy: 27.27% [best: 27.27]%[0m
+[training] Epoch: 44.26. Loss: 3.53. Accuracy: 49.48% [0m
+[training] Epoch: 44.53. Loss: 3.56. Accuracy: 47.16% [0m
+[training] Epoch: 44.79. Loss: 3.56. Accuracy: 47.51% [0m
+[92m[training] Epoch: 45.00. Loss: 3.55. Accuracy: 47.32% [0m
+[92m[validation] Epoch: 45.00. Loss: 5.49. Accuracy: 27.88% [best: 27.88]%[0m
+[training] Epoch: 45.26. Loss: 3.48. Accuracy: 48.44% [0m
+[training] Epoch: 45.53. Loss: 3.54. Accuracy: 46.95% [0m
+[training] Epoch: 45.79. Loss: 3.52. Accuracy: 47.22% [0m
+[92m[training] Epoch: 46.00. Loss: 3.52. Accuracy: 46.81% [0m
+[92m[validation] Epoch: 46.00. Loss: 5.48. Accuracy: 28.28% [best: 28.28]%[0m
+[training] Epoch: 46.26. Loss: 3.51. Accuracy: 47.27% [0m
+[training] Epoch: 46.53. Loss: 3.51. Accuracy: 48.51% [0m
+[training] Epoch: 46.79. Loss: 3.52. Accuracy: 48.00% [0m
+[92m[training] Epoch: 47.00. Loss: 3.52. Accuracy: 48.17% [0m
+[92m[validation] Epoch: 47.00. Loss: 5.48. Accuracy: 27.88% [best: 28.28]%[0m
+[training] Epoch: 47.26. Loss: 3.47. Accuracy: 49.09% [0m
+[training] Epoch: 47.53. Loss: 3.50. Accuracy: 47.30% [0m
+[training] Epoch: 47.79. Loss: 3.47. Accuracy: 48.93% [0m
+[92m[training] Epoch: 48.00. Loss: 3.49. Accuracy: 48.64% [0m
+[92m[validation] Epoch: 48.00. Loss: 5.49. Accuracy: 28.48% [best: 28.48]%[0m
+[training] Epoch: 48.26. Loss: 3.38. Accuracy: 52.47% [0m
+[training] Epoch: 48.53. Loss: 3.44. Accuracy: 50.64% [0m
+[training] Epoch: 48.79. Loss: 3.47. Accuracy: 49.17% [0m
+[92m[training] Epoch: 49.00. Loss: 3.46. Accuracy: 49.57% [0m
+[92m[validation] Epoch: 49.00. Loss: 5.47. Accuracy: 28.69% [best: 28.69]%[0m
+[training] Epoch: 49.26. Loss: 3.47. Accuracy: 50.13% [0m
+[training] Epoch: 49.53. Loss: 3.41. Accuracy: 51.49% [0m
+[training] Epoch: 49.79. Loss: 3.44. Accuracy: 50.29% [0m
+[92m[training] Epoch: 50.00. Loss: 3.44. Accuracy: 49.96% [0m
+[92m[validation] Epoch: 50.00. Loss: 5.48. Accuracy: 29.49% [best: 29.49]%[0m
+[training] Epoch: 50.26. Loss: 3.41. Accuracy: 47.92% [0m
+[training] Epoch: 50.53. Loss: 3.40. Accuracy: 49.50% [0m
+[training] Epoch: 50.79. Loss: 3.40. Accuracy: 49.51% [0m
+[92m[training] Epoch: 51.00. Loss: 3.42. Accuracy: 49.53% [0m
+[92m[validation] Epoch: 51.00. Loss: 5.48. Accuracy: 29.09% [best: 29.49]%[0m
+[training] Epoch: 51.26. Loss: 3.38. Accuracy: 50.26% [0m
+[training] Epoch: 51.53. Loss: 3.38. Accuracy: 50.85% [0m
+[training] Epoch: 51.79. Loss: 3.38. Accuracy: 50.34% [0m
+[92m[training] Epoch: 52.00. Loss: 3.39. Accuracy: 50.30% [0m
+[92m[validation] Epoch: 52.00. Loss: 5.46. Accuracy: 29.70% [best: 29.70]%[0m
+[training] Epoch: 52.26. Loss: 3.40. Accuracy: 50.65% [0m
+[training] Epoch: 52.53. Loss: 3.39. Accuracy: 51.85% [0m
+[training] Epoch: 52.79. Loss: 3.36. Accuracy: 53.61% [0m
+[92m[training] Epoch: 53.00. Loss: 3.39. Accuracy: 52.51% [0m
+[92m[validation] Epoch: 53.00. Loss: 5.46. Accuracy: 29.70% [best: 29.70]%[0m
+[training] Epoch: 53.26. Loss: 3.32. Accuracy: 53.39% [0m
+[training] Epoch: 53.53. Loss: 3.34. Accuracy: 52.77% [0m
+[training] Epoch: 53.79. Loss: 3.36. Accuracy: 52.39% [0m
+[92m[training] Epoch: 54.00. Loss: 3.36. Accuracy: 52.39% [0m
+[92m[validation] Epoch: 54.00. Loss: 5.44. Accuracy: 28.69% [best: 29.70]%[0m
+[training] Epoch: 54.26. Loss: 3.40. Accuracy: 53.26% [0m
+[training] Epoch: 54.53. Loss: 3.37. Accuracy: 53.20% [0m
+[training] Epoch: 54.79. Loss: 3.34. Accuracy: 52.54% [0m
+[92m[training] Epoch: 55.00. Loss: 3.33. Accuracy: 52.94% [0m
+[92m[validation] Epoch: 55.00. Loss: 5.44. Accuracy: 29.29% [best: 29.70]%[0m
+[training] Epoch: 55.26. Loss: 3.27. Accuracy: 53.91% [0m
+[training] Epoch: 55.53. Loss: 3.31. Accuracy: 52.70% [0m
+[training] Epoch: 55.79. Loss: 3.33. Accuracy: 51.56% [0m
+[92m[training] Epoch: 56.00. Loss: 3.32. Accuracy: 51.70% [0m
+[92m[validation] Epoch: 56.00. Loss: 5.45. Accuracy: 29.29% [best: 29.70]%[0m
+[training] Epoch: 56.26. Loss: 3.29. Accuracy: 54.17% [0m
+[training] Epoch: 56.53. Loss: 3.31. Accuracy: 54.05% [0m
+[training] Epoch: 56.79. Loss: 3.31. Accuracy: 53.76% [0m
+[92m[training] Epoch: 57.00. Loss: 3.30. Accuracy: 53.53% [0m
+[92m[validation] Epoch: 57.00. Loss: 5.44. Accuracy: 29.70% [best: 29.70]%[0m
+[training] Epoch: 57.26. Loss: 3.25. Accuracy: 56.12% [0m
+[training] Epoch: 57.53. Loss: 3.28. Accuracy: 55.26% [0m
+[training] Epoch: 57.79. Loss: 3.28. Accuracy: 53.76% [0m
+[92m[training] Epoch: 58.00. Loss: 3.28. Accuracy: 53.92% [0m
+[92m[validation] Epoch: 58.00. Loss: 5.45. Accuracy: 30.10% [best: 30.10]%[0m
+[training] Epoch: 58.26. Loss: 3.25. Accuracy: 56.25% [0m
+[training] Epoch: 58.53. Loss: 3.24. Accuracy: 54.26% [0m
+[training] Epoch: 58.79. Loss: 3.28. Accuracy: 53.66% [0m
+[92m[training] Epoch: 59.00. Loss: 3.26. Accuracy: 53.92% [0m
+[92m[validation] Epoch: 59.00. Loss: 5.44. Accuracy: 29.09% [best: 30.10]%[0m
+[training] Epoch: 59.26. Loss: 3.18. Accuracy: 56.64% [0m
+[training] Epoch: 59.53. Loss: 3.21. Accuracy: 55.89% [0m
+[training] Epoch: 59.79. Loss: 3.24. Accuracy: 54.93% [0m
+[92m[training] Epoch: 60.00. Loss: 3.24. Accuracy: 54.94% [0m
+[92m[validation] Epoch: 60.00. Loss: 5.46. Accuracy: 29.49% [best: 30.10]%[0m
+[training] Epoch: 60.26. Loss: 3.17. Accuracy: 56.77% [0m
+[training] Epoch: 60.53. Loss: 3.19. Accuracy: 56.53% [0m
+[training] Epoch: 60.79. Loss: 3.22. Accuracy: 55.08% [0m
+[92m[training] Epoch: 61.00. Loss: 3.22. Accuracy: 55.49% [0m
+[92m[validation] Epoch: 61.00. Loss: 5.44. Accuracy: 30.10% [best: 30.10]%[0m
+[training] Epoch: 61.26. Loss: 3.14. Accuracy: 56.25% [0m
+[training] Epoch: 61.53. Loss: 3.16. Accuracy: 56.82% [0m
+[training] Epoch: 61.79. Loss: 3.17. Accuracy: 56.49% [0m
+[92m[training] Epoch: 62.00. Loss: 3.19. Accuracy: 55.58% [0m
+[92m[validation] Epoch: 62.00. Loss: 5.41. Accuracy: 30.10% [best: 30.10]%[0m
+[training] Epoch: 62.26. Loss: 3.17. Accuracy: 55.47% [0m
+[training] Epoch: 62.53. Loss: 3.20. Accuracy: 53.98% [0m
+[training] Epoch: 62.79. Loss: 3.18. Accuracy: 54.69% [0m
+[92m[training] Epoch: 63.00. Loss: 3.18. Accuracy: 55.07% [0m
+[92m[validation] Epoch: 63.00. Loss: 5.43. Accuracy: 29.70% [best: 30.10]%[0m
+[training] Epoch: 63.26. Loss: 3.08. Accuracy: 59.11% [0m
+[training] Epoch: 63.53. Loss: 3.14. Accuracy: 57.03% [0m
+[training] Epoch: 63.79. Loss: 3.16. Accuracy: 56.20% [0m
+[92m[training] Epoch: 64.00. Loss: 3.17. Accuracy: 56.09% [0m
+[92m[validation] Epoch: 64.00. Loss: 5.43. Accuracy: 29.49% [best: 30.10]%[0m
+[training] Epoch: 64.26. Loss: 3.12. Accuracy: 57.94% [0m
+[training] Epoch: 64.53. Loss: 3.15. Accuracy: 56.68% [0m
+[training] Epoch: 64.79. Loss: 3.17. Accuracy: 56.05% [0m
+[92m[training] Epoch: 65.00. Loss: 3.16. Accuracy: 56.35% [0m
+[92m[validation] Epoch: 65.00. Loss: 5.42. Accuracy: 30.10% [best: 30.10]%[0m
+[training] Epoch: 65.26. Loss: 3.13. Accuracy: 57.29% [0m
+[training] Epoch: 65.53. Loss: 3.15. Accuracy: 57.53% [0m
+[training] Epoch: 65.79. Loss: 3.16. Accuracy: 56.54% [0m
+[92m[training] Epoch: 66.00. Loss: 3.15. Accuracy: 56.86% [0m
+[92m[validation] Epoch: 66.00. Loss: 5.43. Accuracy: 30.30% [best: 30.30]%[0m
+[training] Epoch: 66.26. Loss: 3.10. Accuracy: 60.16% [0m
+[training] Epoch: 66.53. Loss: 3.12. Accuracy: 58.10% [0m
+[training] Epoch: 66.79. Loss: 3.13. Accuracy: 57.62% [0m
+[92m[training] Epoch: 67.00. Loss: 3.14. Accuracy: 58.30% [0m
+[92m[validation] Epoch: 67.00. Loss: 5.41. Accuracy: 30.10% [best: 30.30]%[0m
+[training] Epoch: 67.26. Loss: 3.17. Accuracy: 58.33% [0m
+[training] Epoch: 67.53. Loss: 3.12. Accuracy: 58.88% [0m
+[training] Epoch: 67.79. Loss: 3.13. Accuracy: 58.30% [0m
+[92m[training] Epoch: 68.00. Loss: 3.11. Accuracy: 58.60% [0m
+[92m[validation] Epoch: 68.00. Loss: 5.40. Accuracy: 29.90% [best: 30.30]%[0m
+[training] Epoch: 68.26. Loss: 3.06. Accuracy: 58.46% [0m
+[training] Epoch: 68.53. Loss: 3.10. Accuracy: 56.04% [0m
+[training] Epoch: 68.79. Loss: 3.09. Accuracy: 56.74% [0m
+[92m[training] Epoch: 69.00. Loss: 3.09. Accuracy: 56.73% [0m
+[92m[validation] Epoch: 69.00. Loss: 5.43. Accuracy: 30.51% [best: 30.51]%[0m
+[training] Epoch: 69.26. Loss: 3.09. Accuracy: 58.98% [0m
+[training] Epoch: 69.53. Loss: 3.05. Accuracy: 59.16% [0m
+[training] Epoch: 69.79. Loss: 3.06. Accuracy: 58.94% [0m
+[92m[training] Epoch: 70.00. Loss: 3.07. Accuracy: 58.99% [0m
+[92m[validation] Epoch: 70.00. Loss: 5.43. Accuracy: 30.91% [best: 30.91]%[0m
+[training] Epoch: 70.26. Loss: 3.07. Accuracy: 56.25% [0m
+[training] Epoch: 70.53. Loss: 3.08. Accuracy: 56.89% [0m
+[training] Epoch: 70.79. Loss: 3.06. Accuracy: 57.23% [0m
+[92m[training] Epoch: 71.00. Loss: 3.05. Accuracy: 57.62% [0m
+[92m[validation] Epoch: 71.00. Loss: 5.42. Accuracy: 30.91% [best: 30.91]%[0m
+[training] Epoch: 71.26. Loss: 3.01. Accuracy: 61.20% [0m
+[training] Epoch: 71.53. Loss: 3.02. Accuracy: 60.72% [0m
+[training] Epoch: 71.79. Loss: 3.04. Accuracy: 60.06% [0m
+[92m[training] Epoch: 72.00. Loss: 3.03. Accuracy: 60.22% [0m
+[92m[validation] Epoch: 72.00. Loss: 5.41. Accuracy: 30.71% [best: 30.91]%[0m
+[training] Epoch: 72.26. Loss: 3.03. Accuracy: 57.55% [0m
+[training] Epoch: 72.53. Loss: 3.03. Accuracy: 57.81% [0m
+[training] Epoch: 72.79. Loss: 3.03. Accuracy: 58.50% [0m
+[92m[training] Epoch: 73.00. Loss: 3.02. Accuracy: 58.94% [0m
+[92m[validation] Epoch: 73.00. Loss: 5.40. Accuracy: 30.30% [best: 30.91]%[0m
+[training] Epoch: 73.26. Loss: 2.98. Accuracy: 61.33% [0m
+[training] Epoch: 73.53. Loss: 2.97. Accuracy: 61.43% [0m
+[training] Epoch: 73.79. Loss: 3.00. Accuracy: 59.77% [0m
+[92m[training] Epoch: 74.00. Loss: 3.02. Accuracy: 59.58% [0m
+[92m[validation] Epoch: 74.00. Loss: 5.42. Accuracy: 30.10% [best: 30.91]%[0m
+[training] Epoch: 74.26. Loss: 3.08. Accuracy: 58.07% [0m
+[training] Epoch: 74.53. Loss: 3.05. Accuracy: 58.45% [0m
+[training] Epoch: 74.79. Loss: 3.01. Accuracy: 59.72% [0m
+[92m[training] Epoch: 75.00. Loss: 3.01. Accuracy: 59.88% [0m
+[92m[validation] Epoch: 75.00. Loss: 5.41. Accuracy: 31.31% [best: 31.31]%[0m
+[training] Epoch: 75.26. Loss: 2.93. Accuracy: 63.02% [0m
+[training] Epoch: 75.53. Loss: 2.94. Accuracy: 62.43% [0m
+[training] Epoch: 75.79. Loss: 2.96. Accuracy: 61.87% [0m
+[92m[training] Epoch: 76.00. Loss: 2.97. Accuracy: 61.67% [0m
+[92m[validation] Epoch: 76.00. Loss: 5.41. Accuracy: 30.71% [best: 31.31]%[0m
+[training] Epoch: 76.26. Loss: 2.97. Accuracy: 61.33% [0m
+[training] Epoch: 76.53. Loss: 2.97. Accuracy: 61.15% [0m
+[training] Epoch: 76.79. Loss: 2.96. Accuracy: 61.57% [0m
+[92m[training] Epoch: 77.00. Loss: 2.97. Accuracy: 61.54% [0m
+[92m[validation] Epoch: 77.00. Loss: 5.41. Accuracy: 31.11% [best: 31.31]%[0m
+[training] Epoch: 77.26. Loss: 2.96. Accuracy: 60.42% [0m
+[training] Epoch: 77.53. Loss: 2.96. Accuracy: 61.08% [0m
+[training] Epoch: 77.79. Loss: 2.98. Accuracy: 60.84% [0m
+[92m[training] Epoch: 78.00. Loss: 2.96. Accuracy: 61.03% [0m
+[92m[validation] Epoch: 78.00. Loss: 5.41. Accuracy: 31.11% [best: 31.31]%[0m
+[training] Epoch: 78.26. Loss: 3.00. Accuracy: 56.64% [0m
+[training] Epoch: 78.53. Loss: 2.95. Accuracy: 59.59% [0m
+[training] Epoch: 78.79. Loss: 2.95. Accuracy: 61.08% [0m
+[92m[training] Epoch: 79.00. Loss: 2.95. Accuracy: 61.12% [0m
+[92m[validation] Epoch: 79.00. Loss: 5.41. Accuracy: 31.92% [best: 31.92]%[0m
+[training] Epoch: 79.26. Loss: 2.93. Accuracy: 61.59% [0m
+[training] Epoch: 79.53. Loss: 2.94. Accuracy: 61.93% [0m
+[training] Epoch: 79.79. Loss: 2.94. Accuracy: 61.57% [0m
+[92m[training] Epoch: 80.00. Loss: 2.95. Accuracy: 61.63% [0m
+[92m[validation] Epoch: 80.00. Loss: 5.41. Accuracy: 31.92% [best: 31.92]%[0m
+[training] Epoch: 80.26. Loss: 2.89. Accuracy: 61.72% [0m
+[training] Epoch: 80.53. Loss: 2.86. Accuracy: 62.07% [0m
+[training] Epoch: 80.79. Loss: 2.90. Accuracy: 61.82% [0m
+[92m[training] Epoch: 81.00. Loss: 2.91. Accuracy: 61.29% [0m
+[92m[validation] Epoch: 81.00. Loss: 5.42. Accuracy: 31.52% [best: 31.92]%[0m
+[training] Epoch: 81.26. Loss: 2.90. Accuracy: 60.68% [0m
+[training] Epoch: 81.53. Loss: 2.93. Accuracy: 60.94% [0m
+[training] Epoch: 81.79. Loss: 2.89. Accuracy: 62.01% [0m
+[92m[training] Epoch: 82.00. Loss: 2.91. Accuracy: 62.10% [0m
+[92m[validation] Epoch: 82.00. Loss: 5.41. Accuracy: 31.31% [best: 31.92]%[0m
+[training] Epoch: 82.26. Loss: 2.91. Accuracy: 60.81% [0m
+[training] Epoch: 82.53. Loss: 2.91. Accuracy: 60.65% [0m
+[training] Epoch: 82.79. Loss: 2.91. Accuracy: 61.08% [0m
+[92m[training] Epoch: 83.00. Loss: 2.90. Accuracy: 61.75% [0m
+[92m[validation] Epoch: 83.00. Loss: 5.41. Accuracy: 30.71% [best: 31.92]%[0m
+[training] Epoch: 83.26. Loss: 2.91. Accuracy: 60.42% [0m
+[training] Epoch: 83.53. Loss: 2.90. Accuracy: 60.94% [0m
+[training] Epoch: 83.79. Loss: 2.90. Accuracy: 61.77% [0m
+[92m[training] Epoch: 84.00. Loss: 2.89. Accuracy: 61.88% [0m
+[92m[validation] Epoch: 84.00. Loss: 5.41. Accuracy: 30.71% [best: 31.92]%[0m
+[training] Epoch: 84.26. Loss: 2.88. Accuracy: 64.58% [0m
+[training] Epoch: 84.53. Loss: 2.89. Accuracy: 63.92% [0m
+[training] Epoch: 84.79. Loss: 2.88. Accuracy: 63.82% [0m
+[92m[training] Epoch: 85.00. Loss: 2.87. Accuracy: 63.71% [0m
+[92m[validation] Epoch: 85.00. Loss: 5.43. Accuracy: 31.52% [best: 31.92]%[0m
+[training] Epoch: 85.26. Loss: 2.86. Accuracy: 62.50% [0m
+[training] Epoch: 85.53. Loss: 2.86. Accuracy: 63.78% [0m
+[training] Epoch: 85.79. Loss: 2.85. Accuracy: 63.43% [0m
+[92m[training] Epoch: 86.00. Loss: 2.85. Accuracy: 63.59% [0m
+[92m[validation] Epoch: 86.00. Loss: 5.40. Accuracy: 31.92% [best: 31.92]%[0m
+[training] Epoch: 86.26. Loss: 2.85. Accuracy: 64.45% [0m
+[training] Epoch: 86.53. Loss: 2.83. Accuracy: 64.70% [0m
+[training] Epoch: 86.79. Loss: 2.84. Accuracy: 64.84% [0m
+[92m[training] Epoch: 87.00. Loss: 2.85. Accuracy: 64.22% [0m
+[92m[validation] Epoch: 87.00. Loss: 5.40. Accuracy: 31.92% [best: 31.92]%[0m
+[training] Epoch: 87.26. Loss: 2.80. Accuracy: 65.23% [0m
+[training] Epoch: 87.53. Loss: 2.85. Accuracy: 62.07% [0m
+[training] Epoch: 87.79. Loss: 2.83. Accuracy: 62.94% [0m
+[92m[training] Epoch: 88.00. Loss: 2.83. Accuracy: 63.07% [0m
+[92m[validation] Epoch: 88.00. Loss: 5.40. Accuracy: 32.32% [best: 32.32]%[0m
+[training] Epoch: 88.26. Loss: 2.82. Accuracy: 64.06% [0m
+[training] Epoch: 88.53. Loss: 2.82. Accuracy: 63.99% [0m
+[training] Epoch: 88.79. Loss: 2.81. Accuracy: 64.84% [0m
+[92m[training] Epoch: 89.00. Loss: 2.82. Accuracy: 64.78% [0m
+[92m[validation] Epoch: 89.00. Loss: 5.41. Accuracy: 31.92% [best: 32.32]%[0m
+[training] Epoch: 89.26. Loss: 2.80. Accuracy: 65.10% [0m
+[training] Epoch: 89.53. Loss: 2.83. Accuracy: 63.42% [0m
+[training] Epoch: 89.79. Loss: 2.79. Accuracy: 65.67% [0m
+[92m[training] Epoch: 90.00. Loss: 2.80. Accuracy: 65.33% [0m
+[92m[validation] Epoch: 90.00. Loss: 5.41. Accuracy: 32.53% [best: 32.53]%[0m
+[training] Epoch: 90.26. Loss: 2.79. Accuracy: 63.67% [0m
+[training] Epoch: 90.53. Loss: 2.79. Accuracy: 63.21% [0m
+[training] Epoch: 90.79. Loss: 2.79. Accuracy: 63.67% [0m
+[92m[training] Epoch: 91.00. Loss: 2.79. Accuracy: 63.80% [0m
+[92m[validation] Epoch: 91.00. Loss: 5.40. Accuracy: 32.53% [best: 32.53]%[0m
+[training] Epoch: 91.26. Loss: 2.72. Accuracy: 66.28% [0m
+[training] Epoch: 91.53. Loss: 2.78. Accuracy: 64.49% [0m
+[training] Epoch: 91.79. Loss: 2.78. Accuracy: 64.94% [0m
+[92m[training] Epoch: 92.00. Loss: 2.78. Accuracy: 64.61% [0m
+[92m[validation] Epoch: 92.00. Loss: 5.43. Accuracy: 32.53% [best: 32.53]%[0m
+[training] Epoch: 92.26. Loss: 2.82. Accuracy: 64.45% [0m
+[training] Epoch: 92.53. Loss: 2.76. Accuracy: 64.77% [0m
+[training] Epoch: 92.79. Loss: 2.80. Accuracy: 64.60% [0m
+[92m[training] Epoch: 93.00. Loss: 2.79. Accuracy: 65.08% [0m
+[92m[validation] Epoch: 93.00. Loss: 5.45. Accuracy: 31.52% [best: 32.53]%[0m
+[training] Epoch: 93.26. Loss: 2.77. Accuracy: 67.58% [0m
+[training] Epoch: 93.53. Loss: 2.76. Accuracy: 66.55% [0m
+[training] Epoch: 93.79. Loss: 2.76. Accuracy: 66.02% [0m
+[92m[training] Epoch: 94.00. Loss: 2.76. Accuracy: 65.80% [0m
+[92m[validation] Epoch: 94.00. Loss: 5.43. Accuracy: 32.73% [best: 32.73]%[0m
+[training] Epoch: 94.26. Loss: 2.79. Accuracy: 63.02% [0m
+[training] Epoch: 94.53. Loss: 2.79. Accuracy: 63.28% [0m
+[training] Epoch: 94.79. Loss: 2.78. Accuracy: 64.50% [0m
+[92m[training] Epoch: 95.00. Loss: 2.75. Accuracy: 64.99% [0m
+[92m[validation] Epoch: 95.00. Loss: 5.43. Accuracy: 33.54% [best: 33.54]%[0m
+[training] Epoch: 95.26. Loss: 2.73. Accuracy: 66.41% [0m
+[training] Epoch: 95.53. Loss: 2.74. Accuracy: 66.62% [0m
+[training] Epoch: 95.79. Loss: 2.74. Accuracy: 66.65% [0m
+[92m[training] Epoch: 96.00. Loss: 2.74. Accuracy: 66.23% [0m
+[92m[validation] Epoch: 96.00. Loss: 5.43. Accuracy: 32.73% [best: 33.54]%[0m
+[training] Epoch: 96.26. Loss: 2.74. Accuracy: 63.02% [0m
+[training] Epoch: 96.53. Loss: 2.71. Accuracy: 65.55% [0m
+[training] Epoch: 96.79. Loss: 2.73. Accuracy: 65.38% [0m
+[92m[training] Epoch: 97.00. Loss: 2.74. Accuracy: 65.63% [0m
+[92m[validation] Epoch: 97.00. Loss: 5.43. Accuracy: 33.33% [best: 33.54]%[0m
+[training] Epoch: 97.26. Loss: 2.71. Accuracy: 67.84% [0m
+[training] Epoch: 97.53. Loss: 2.74. Accuracy: 66.19% [0m
+[training] Epoch: 97.79. Loss: 2.72. Accuracy: 65.67% [0m
+[92m[training] Epoch: 98.00. Loss: 2.73. Accuracy: 65.72% [0m
+[92m[validation] Epoch: 98.00. Loss: 5.43. Accuracy: 31.92% [best: 33.54]%[0m
+[training] Epoch: 98.26. Loss: 2.60. Accuracy: 69.40% [0m
+[training] Epoch: 98.53. Loss: 2.66. Accuracy: 66.26% [0m
+[training] Epoch: 98.79. Loss: 2.69. Accuracy: 66.46% [0m
+[92m[training] Epoch: 99.00. Loss: 2.71. Accuracy: 66.14% [0m
+[92m[validation] Epoch: 99.00. Loss: 5.43. Accuracy: 32.73% [best: 33.54]%[0m
+[training] Epoch: 99.26. Loss: 2.72. Accuracy: 67.06% [0m
+[training] Epoch: 99.53. Loss: 2.70. Accuracy: 68.11% [0m
+[training] Epoch: 99.79. Loss: 2.72. Accuracy: 67.29% [0m
+[92m[training] Epoch: 100.00. Loss: 2.72. Accuracy: 66.78% [0m
+[92m[validation] Epoch: 100.00. Loss: 5.44. Accuracy: 32.53% [best: 33.54]%[0m
+
+Fri Apr  7 21:32:08 UTC 2023
+training:rgb:256:100:234:past_offset=0
+args Namespace(mode='train', path_to_data='data/ek55', path_to_models='models/ek55', alpha=0.25, S_enc=6, S_ant=8, task='anticipation', img_tmpl='frame_{:010d}.jpg', modality='rgb', sequence_completion=False, num_class=234, hidden=256, feat_in=1024, feats_in=[1024, 1024, 352], dropout=0.8, batch_size=128, num_workers=0, lr=0.01, momentum=0.9, display_every=5, epochs=100, visdom=False, ignore_checkpoints=False, resume=False, ek100=False, json_directory=None, use_future_samples=False, meter='vm', past_offset=0.0)
+get_model: modality: rgb mode: train
+model: num_class 234 , feat_in 1024 hidden 256 dropout 0.8 depth 1 sequence_completion False return_context False
+main: model with device cuda
+main: training
+get_loader: loader for mode training ; path to lmdb data/ek55/rgb
+get_loader: kargs {'path_to_lmdb': 'data/ek55/rgb', 'path_to_csv': 'data/ek55/training.csv', 'time_step': 0.25, 'img_tmpl': 'frame_{:010d}.jpg', 'action_samples': None, 'past_features': True, 'sequence_length': 14, 'label_type': 'action', 'challenge': False, 'use_future_samples': False, 'past_offset': 0.0}
+dataset init
+Populating Dataset:   0%|          | 0/2349 [00:00<?, ?it/s]Populating Dataset:  34%|███▎      | 790/2349 [00:00<00:00, 7892.80it/s]Populating Dataset:  69%|██████▉   | 1629/2349 [00:00<00:00, 8183.05it/s]Populating Dataset: 100%|██████████| 2349/2349 [00:00<00:00, 8150.77it/s]
+ds populate lists done; discarded 1 sequences
+dataset init done
+get_loader: loader for mode validation ; path to lmdb data/ek55/rgb
+get_loader: kargs {'path_to_lmdb': 'data/ek55/rgb', 'path_to_csv': 'data/ek55/validation.csv', 'time_step': 0.25, 'img_tmpl': 'frame_{:010d}.jpg', 'action_samples': None, 'past_features': True, 'sequence_length': 14, 'label_type': 'action', 'challenge': False, 'use_future_samples': False, 'past_offset': 0.0}
+dataset init
+Populating Dataset:   0%|          | 0/497 [00:00<?, ?it/s]Populating Dataset: 100%|██████████| 497/497 [00:00<00:00, 8126.12it/s]
+ds populate lists done; discarded 2 sequences
+dataset init done
+main: loaders {'training': <torch.utils.data.dataloader.DataLoader object at 0x7f9bc1e9b850>, 'validation': <torch.utils.data.dataloader.DataLoader object at 0x7f9bc1e9be80>}
+main: optimizer SGD (
+Parameter Group 0
+    dampening: 0
+    differentiable: False
+    foreach: None
+    lr: 0.01
+    maximize: False
+    momentum: 0.9
+    nesterov: False
+    weight_decay: 0
+)
+running trainval
+trainval
+  trainval: model RULSTM(
+  (dropout): Dropout(p=0.8, inplace=False)
+  (rolling_lstm): OpenLSTM(
+    (lstm): LSTM(1024, 256)
+  )
+  (unrolling_lstm): LSTM(1024, 256)
+  (classifier): Sequential(
+    (0): Dropout(p=0.8, inplace=False)
+    (1): Linear(in_features=256, out_features=234, bias=True)
+  )
+)
+  trainval: loaders {'training': <torch.utils.data.dataloader.DataLoader object at 0x7f9bc1e9b850>, 'validation': <torch.utils.data.dataloader.DataLoader object at 0x7f9bc1e9be80>}
+  trainval: optimizer SGD (
+Parameter Group 0
+    dampening: 0
+    differentiable: False
+    foreach: None
+    lr: 0.01
+    maximize: False
+    momentum: 0.9
+    nesterov: False
+    weight_decay: 0
+)
+  trainval: epochs 100
+  trainval: start_epoch 0
+  trainval: start_best_perf 0
+[training] Epoch: 0.26. Loss: 3.30. Accuracy: 53.78% [0m
+[training] Epoch: 0.53. Loss: 3.31. Accuracy: 54.55% [0m
+[training] Epoch: 0.79. Loss: 3.31. Accuracy: 54.05% [0m
+[92m[training] Epoch: 1.00. Loss: 3.31. Accuracy: 54.86% [0m
+[92m[validation] Epoch: 1.00. Loss: 5.73. Accuracy: 26.46% [best: 26.46]%[0m
+[training] Epoch: 1.26. Loss: 3.23. Accuracy: 56.64% [0m
+[training] Epoch: 1.53. Loss: 3.27. Accuracy: 55.75% [0m
+[training] Epoch: 1.79. Loss: 3.28. Accuracy: 56.35% [0m
+[92m[training] Epoch: 2.00. Loss: 3.27. Accuracy: 56.30% [0m
+[92m[validation] Epoch: 2.00. Loss: 5.69. Accuracy: 28.69% [best: 28.69]%[0m
+[training] Epoch: 2.26. Loss: 3.26. Accuracy: 56.38% [0m
+[training] Epoch: 2.53. Loss: 3.24. Accuracy: 55.04% [0m
+[training] Epoch: 2.79. Loss: 3.24. Accuracy: 54.39% [0m
+[92m[training] Epoch: 3.00. Loss: 3.24. Accuracy: 54.26% [0m
+[92m[validation] Epoch: 3.00. Loss: 5.67. Accuracy: 28.08% [best: 28.69]%[0m
+[training] Epoch: 3.26. Loss: 3.26. Accuracy: 51.95% [0m
+[training] Epoch: 3.53. Loss: 3.21. Accuracy: 54.05% [0m
+[training] Epoch: 3.79. Loss: 3.21. Accuracy: 54.20% [0m
+[92m[training] Epoch: 4.00. Loss: 3.22. Accuracy: 54.26% [0m
+[92m[validation] Epoch: 4.00. Loss: 5.64. Accuracy: 28.89% [best: 28.89]%[0m
+[training] Epoch: 4.26. Loss: 3.21. Accuracy: 54.43% [0m
+[training] Epoch: 4.53. Loss: 3.20. Accuracy: 56.04% [0m
+[training] Epoch: 4.79. Loss: 3.20. Accuracy: 55.52% [0m
+[92m[training] Epoch: 5.00. Loss: 3.20. Accuracy: 55.07% [0m
+[92m[validation] Epoch: 5.00. Loss: 5.61. Accuracy: 27.68% [best: 28.89]%[0m
+[training] Epoch: 5.26. Loss: 3.16. Accuracy: 56.12% [0m
+[training] Epoch: 5.53. Loss: 3.16. Accuracy: 56.96% [0m
+[training] Epoch: 5.79. Loss: 3.16. Accuracy: 56.79% [0m
+[92m[training] Epoch: 6.00. Loss: 3.17. Accuracy: 56.18% [0m
+[92m[validation] Epoch: 6.00. Loss: 5.60. Accuracy: 27.47% [best: 28.89]%[0m
+[training] Epoch: 6.26. Loss: 3.15. Accuracy: 55.73% [0m
+[training] Epoch: 6.53. Loss: 3.17. Accuracy: 54.97% [0m
+[training] Epoch: 6.79. Loss: 3.16. Accuracy: 56.01% [0m
+[92m[training] Epoch: 7.00. Loss: 3.16. Accuracy: 56.39% [0m
+[92m[validation] Epoch: 7.00. Loss: 5.60. Accuracy: 28.08% [best: 28.89]%[0m
+[training] Epoch: 7.26. Loss: 3.10. Accuracy: 57.55% [0m
+[training] Epoch: 7.53. Loss: 3.13. Accuracy: 56.04% [0m
+[training] Epoch: 7.79. Loss: 3.14. Accuracy: 56.20% [0m
+[92m[training] Epoch: 8.00. Loss: 3.15. Accuracy: 56.30% [0m
+[92m[validation] Epoch: 8.00. Loss: 5.58. Accuracy: 27.68% [best: 28.89]%[0m
+[training] Epoch: 8.26. Loss: 3.09. Accuracy: 58.85% [0m
+[training] Epoch: 8.53. Loss: 3.10. Accuracy: 58.59% [0m
+[training] Epoch: 8.79. Loss: 3.13. Accuracy: 57.13% [0m
+[92m[training] Epoch: 9.00. Loss: 3.13. Accuracy: 57.07% [0m
+[92m[validation] Epoch: 9.00. Loss: 5.56. Accuracy: 27.68% [best: 28.89]%[0m
+[training] Epoch: 9.26. Loss: 3.12. Accuracy: 54.69% [0m
+[training] Epoch: 9.53. Loss: 3.14. Accuracy: 56.18% [0m
+[training] Epoch: 9.79. Loss: 3.13. Accuracy: 57.23% [0m
+[92m[training] Epoch: 10.00. Loss: 3.12. Accuracy: 57.03% [0m
+[92m[validation] Epoch: 10.00. Loss: 5.56. Accuracy: 28.28% [best: 28.89]%[0m
+[training] Epoch: 10.26. Loss: 3.11. Accuracy: 58.20% [0m
+[training] Epoch: 10.53. Loss: 3.08. Accuracy: 58.38% [0m
+[training] Epoch: 10.79. Loss: 3.12. Accuracy: 56.69% [0m
+[92m[training] Epoch: 11.00. Loss: 3.11. Accuracy: 57.62% [0m
+[92m[validation] Epoch: 11.00. Loss: 5.55. Accuracy: 27.88% [best: 28.89]%[0m
+[training] Epoch: 11.26. Loss: 3.09. Accuracy: 59.11% [0m
+[training] Epoch: 11.53. Loss: 3.09. Accuracy: 58.03% [0m
+[training] Epoch: 11.79. Loss: 3.08. Accuracy: 57.91% [0m
+[92m[training] Epoch: 12.00. Loss: 3.09. Accuracy: 57.84% [0m
+[92m[validation] Epoch: 12.00. Loss: 5.55. Accuracy: 28.28% [best: 28.89]%[0m
+[training] Epoch: 12.26. Loss: 3.06. Accuracy: 56.90% [0m
+[training] Epoch: 12.53. Loss: 3.08. Accuracy: 57.24% [0m
+[training] Epoch: 12.79. Loss: 3.08. Accuracy: 57.81% [0m
+[92m[training] Epoch: 13.00. Loss: 3.10. Accuracy: 58.05% [0m
+[92m[validation] Epoch: 13.00. Loss: 5.54. Accuracy: 28.28% [best: 28.89]%[0m
+[training] Epoch: 13.26. Loss: 3.06. Accuracy: 58.46% [0m
+[training] Epoch: 13.53. Loss: 3.07. Accuracy: 58.31% [0m
+[training] Epoch: 13.79. Loss: 3.06. Accuracy: 58.11% [0m
+[92m[training] Epoch: 14.00. Loss: 3.07. Accuracy: 58.52% [0m
+[92m[validation] Epoch: 14.00. Loss: 5.54. Accuracy: 27.68% [best: 28.89]%[0m
+[training] Epoch: 14.26. Loss: 3.02. Accuracy: 58.33% [0m
+[training] Epoch: 14.53. Loss: 3.04. Accuracy: 58.66% [0m
+[training] Epoch: 14.79. Loss: 3.06. Accuracy: 59.72% [0m
+[92m[training] Epoch: 15.00. Loss: 3.06. Accuracy: 59.41% [0m
+[92m[validation] Epoch: 15.00. Loss: 5.55. Accuracy: 27.68% [best: 28.89]%[0m
+[training] Epoch: 15.26. Loss: 2.99. Accuracy: 60.16% [0m
+[training] Epoch: 15.53. Loss: 3.02. Accuracy: 60.16% [0m
+[training] Epoch: 15.79. Loss: 3.05. Accuracy: 59.38% [0m
+[92m[training] Epoch: 16.00. Loss: 3.04. Accuracy: 58.73% [0m
+[92m[validation] Epoch: 16.00. Loss: 5.53. Accuracy: 27.47% [best: 28.89]%[0m
+[training] Epoch: 16.26. Loss: 3.06. Accuracy: 61.20% [0m
+[training] Epoch: 16.53. Loss: 3.07. Accuracy: 59.16% [0m
+[training] Epoch: 16.79. Loss: 3.04. Accuracy: 59.67% [0m
+[92m[training] Epoch: 17.00. Loss: 3.05. Accuracy: 58.86% [0m
+[92m[validation] Epoch: 17.00. Loss: 5.53. Accuracy: 28.28% [best: 28.89]%[0m
+[training] Epoch: 17.26. Loss: 3.01. Accuracy: 58.98% [0m
+[training] Epoch: 17.53. Loss: 3.05. Accuracy: 58.17% [0m
+[training] Epoch: 17.79. Loss: 3.05. Accuracy: 58.89% [0m
+[92m[training] Epoch: 18.00. Loss: 3.04. Accuracy: 58.82% [0m
+[92m[validation] Epoch: 18.00. Loss: 5.53. Accuracy: 27.47% [best: 28.89]%[0m
+[training] Epoch: 18.26. Loss: 3.04. Accuracy: 57.55% [0m
+[training] Epoch: 18.53. Loss: 3.04. Accuracy: 58.31% [0m
+[training] Epoch: 18.79. Loss: 3.02. Accuracy: 59.28% [0m
+[92m[training] Epoch: 19.00. Loss: 3.02. Accuracy: 59.11% [0m
+[92m[validation] Epoch: 19.00. Loss: 5.56. Accuracy: 27.27% [best: 28.89]%[0m
+[training] Epoch: 19.26. Loss: 3.02. Accuracy: 57.42% [0m
+[training] Epoch: 19.53. Loss: 3.03. Accuracy: 57.88% [0m
+[training] Epoch: 19.79. Loss: 3.01. Accuracy: 58.69% [0m
+[92m[training] Epoch: 20.00. Loss: 3.02. Accuracy: 58.56% [0m
+[92m[validation] Epoch: 20.00. Loss: 5.55. Accuracy: 27.47% [best: 28.89]%[0m
+[training] Epoch: 20.26. Loss: 2.95. Accuracy: 61.20% [0m
+[training] Epoch: 20.53. Loss: 2.97. Accuracy: 60.30% [0m
+[training] Epoch: 20.79. Loss: 3.00. Accuracy: 59.03% [0m
+[92m[training] Epoch: 21.00. Loss: 3.01. Accuracy: 59.11% [0m
+[92m[validation] Epoch: 21.00. Loss: 5.53. Accuracy: 26.67% [best: 28.89]%[0m
+[training] Epoch: 21.26. Loss: 2.97. Accuracy: 60.55% [0m
+[training] Epoch: 21.53. Loss: 2.99. Accuracy: 59.52% [0m
+[training] Epoch: 21.79. Loss: 2.99. Accuracy: 59.47% [0m
+[92m[training] Epoch: 22.00. Loss: 2.99. Accuracy: 59.71% [0m
+[92m[validation] Epoch: 22.00. Loss: 5.54. Accuracy: 28.08% [best: 28.89]%[0m
+[training] Epoch: 22.26. Loss: 2.95. Accuracy: 58.85% [0m
+[training] Epoch: 22.53. Loss: 2.97. Accuracy: 59.09% [0m
+[training] Epoch: 22.79. Loss: 2.99. Accuracy: 58.50% [0m
+[92m[training] Epoch: 23.00. Loss: 2.99. Accuracy: 58.30% [0m
+[92m[validation] Epoch: 23.00. Loss: 5.53. Accuracy: 27.68% [best: 28.89]%[0m
+[training] Epoch: 23.26. Loss: 2.94. Accuracy: 61.07% [0m
+[training] Epoch: 23.53. Loss: 2.94. Accuracy: 61.51% [0m
+[training] Epoch: 23.79. Loss: 2.96. Accuracy: 61.28% [0m
+[92m[training] Epoch: 24.00. Loss: 2.97. Accuracy: 60.52% [0m
+[92m[validation] Epoch: 24.00. Loss: 5.53. Accuracy: 27.27% [best: 28.89]%[0m
+[training] Epoch: 24.26. Loss: 2.95. Accuracy: 60.81% [0m
+[training] Epoch: 24.53. Loss: 2.91. Accuracy: 60.72% [0m
+[training] Epoch: 24.79. Loss: 2.95. Accuracy: 59.47% [0m
+[92m[training] Epoch: 25.00. Loss: 2.96. Accuracy: 59.45% [0m
+[92m[validation] Epoch: 25.00. Loss: 5.51. Accuracy: 26.67% [best: 28.89]%[0m
+[training] Epoch: 25.26. Loss: 2.96. Accuracy: 60.29% [0m
+[training] Epoch: 25.53. Loss: 2.96. Accuracy: 60.37% [0m
+[training] Epoch: 25.79. Loss: 2.96. Accuracy: 60.74% [0m
+[92m[training] Epoch: 26.00. Loss: 2.96. Accuracy: 60.73% [0m
+[92m[validation] Epoch: 26.00. Loss: 5.52. Accuracy: 27.07% [best: 28.89]%[0m
+[training] Epoch: 26.26. Loss: 2.91. Accuracy: 59.38% [0m
+[training] Epoch: 26.53. Loss: 2.92. Accuracy: 58.31% [0m
+[training] Epoch: 26.79. Loss: 2.92. Accuracy: 59.86% [0m
+[92m[training] Epoch: 27.00. Loss: 2.93. Accuracy: 60.18% [0m
+[92m[validation] Epoch: 27.00. Loss: 5.54. Accuracy: 28.28% [best: 28.89]%[0m
+[training] Epoch: 27.26. Loss: 2.93. Accuracy: 60.94% [0m
+[training] Epoch: 27.53. Loss: 2.90. Accuracy: 61.93% [0m
+[training] Epoch: 27.79. Loss: 2.95. Accuracy: 60.60% [0m
+[92m[training] Epoch: 28.00. Loss: 2.94. Accuracy: 61.16% [0m
+[92m[validation] Epoch: 28.00. Loss: 5.52. Accuracy: 27.88% [best: 28.89]%[0m
+[training] Epoch: 28.26. Loss: 2.91. Accuracy: 61.33% [0m
+[training] Epoch: 28.53. Loss: 2.95. Accuracy: 60.44% [0m
+[training] Epoch: 28.79. Loss: 2.94. Accuracy: 61.23% [0m
+[92m[training] Epoch: 29.00. Loss: 2.94. Accuracy: 61.24% [0m
+[92m[validation] Epoch: 29.00. Loss: 5.53. Accuracy: 27.47% [best: 28.89]%[0m
+[training] Epoch: 29.26. Loss: 2.92. Accuracy: 60.81% [0m
+[training] Epoch: 29.53. Loss: 2.92. Accuracy: 60.58% [0m
+[training] Epoch: 29.79. Loss: 2.95. Accuracy: 60.45% [0m
+[92m[training] Epoch: 30.00. Loss: 2.93. Accuracy: 61.16% [0m
+[92m[validation] Epoch: 30.00. Loss: 5.53. Accuracy: 28.28% [best: 28.89]%[0m
+[training] Epoch: 30.26. Loss: 2.92. Accuracy: 62.50% [0m
+[training] Epoch: 30.53. Loss: 2.93. Accuracy: 63.07% [0m
+[training] Epoch: 30.79. Loss: 2.92. Accuracy: 63.23% [0m
+[92m[training] Epoch: 31.00. Loss: 2.93. Accuracy: 62.39% [0m
+[92m[validation] Epoch: 31.00. Loss: 5.54. Accuracy: 28.28% [best: 28.89]%[0m
+[training] Epoch: 31.26. Loss: 2.92. Accuracy: 60.68% [0m
+[training] Epoch: 31.53. Loss: 2.88. Accuracy: 62.22% [0m
+[training] Epoch: 31.79. Loss: 2.89. Accuracy: 61.52% [0m
+[92m[training] Epoch: 32.00. Loss: 2.89. Accuracy: 61.88% [0m
+[92m[validation] Epoch: 32.00. Loss: 5.54. Accuracy: 27.68% [best: 28.89]%[0m
+[training] Epoch: 32.26. Loss: 2.91. Accuracy: 60.68% [0m
+[training] Epoch: 32.53. Loss: 2.93. Accuracy: 60.87% [0m
+[training] Epoch: 32.79. Loss: 2.92. Accuracy: 60.99% [0m
+[92m[training] Epoch: 33.00. Loss: 2.91. Accuracy: 61.63% [0m
+[92m[validation] Epoch: 33.00. Loss: 5.55. Accuracy: 28.48% [best: 28.89]%[0m
+[training] Epoch: 33.26. Loss: 2.89. Accuracy: 61.85% [0m
+[training] Epoch: 33.53. Loss: 2.89. Accuracy: 61.72% [0m
+[training] Epoch: 33.79. Loss: 2.89. Accuracy: 62.21% [0m
+[92m[training] Epoch: 34.00. Loss: 2.91. Accuracy: 61.80% [0m
+[92m[validation] Epoch: 34.00. Loss: 5.53. Accuracy: 29.49% [best: 29.49]%[0m
+[training] Epoch: 34.26. Loss: 2.86. Accuracy: 64.06% [0m
+[training] Epoch: 34.53. Loss: 2.90. Accuracy: 63.35% [0m
+[training] Epoch: 34.79. Loss: 2.88. Accuracy: 63.13% [0m
+[92m[training] Epoch: 35.00. Loss: 2.89. Accuracy: 62.95% [0m
+[92m[validation] Epoch: 35.00. Loss: 5.54. Accuracy: 29.09% [best: 29.49]%[0m
+[training] Epoch: 35.26. Loss: 2.83. Accuracy: 63.02% [0m
+[training] Epoch: 35.53. Loss: 2.86. Accuracy: 62.22% [0m
+[training] Epoch: 35.79. Loss: 2.86. Accuracy: 62.70% [0m
+[92m[training] Epoch: 36.00. Loss: 2.88. Accuracy: 62.27% [0m
+[92m[validation] Epoch: 36.00. Loss: 5.52. Accuracy: 28.89% [best: 29.49]%[0m
+[training] Epoch: 36.26. Loss: 2.87. Accuracy: 64.97% [0m
+[training] Epoch: 36.53. Loss: 2.87. Accuracy: 63.57% [0m
+[training] Epoch: 36.79. Loss: 2.87. Accuracy: 63.13% [0m
+[92m[training] Epoch: 37.00. Loss: 2.87. Accuracy: 63.07% [0m
+[92m[validation] Epoch: 37.00. Loss: 5.50. Accuracy: 29.09% [best: 29.49]%[0m
+[training] Epoch: 37.26. Loss: 2.81. Accuracy: 64.32% [0m
+[training] Epoch: 37.53. Loss: 2.86. Accuracy: 62.50% [0m
+[training] Epoch: 37.79. Loss: 2.88. Accuracy: 62.40% [0m
+[92m[training] Epoch: 38.00. Loss: 2.87. Accuracy: 62.78% [0m
+[92m[validation] Epoch: 38.00. Loss: 5.52. Accuracy: 28.69% [best: 29.49]%[0m
+[training] Epoch: 38.26. Loss: 2.78. Accuracy: 65.62% [0m
+[training] Epoch: 38.53. Loss: 2.83. Accuracy: 65.55% [0m
+[training] Epoch: 38.79. Loss: 2.85. Accuracy: 64.06% [0m
+[92m[training] Epoch: 39.00. Loss: 2.85. Accuracy: 63.80% [0m
+[92m[validation] Epoch: 39.00. Loss: 5.52. Accuracy: 28.48% [best: 29.49]%[0m
+[training] Epoch: 39.26. Loss: 2.82. Accuracy: 64.19% [0m
+[training] Epoch: 39.53. Loss: 2.83. Accuracy: 64.49% [0m
+[training] Epoch: 39.79. Loss: 2.85. Accuracy: 63.48% [0m
+[92m[training] Epoch: 40.00. Loss: 2.84. Accuracy: 63.76% [0m
+[92m[validation] Epoch: 40.00. Loss: 5.52. Accuracy: 28.48% [best: 29.49]%[0m
+[training] Epoch: 40.26. Loss: 2.82. Accuracy: 61.46% [0m
+[training] Epoch: 40.53. Loss: 2.84. Accuracy: 62.64% [0m
+[training] Epoch: 40.79. Loss: 2.84. Accuracy: 63.23% [0m
+[92m[training] Epoch: 41.00. Loss: 2.84. Accuracy: 63.54% [0m
+[92m[validation] Epoch: 41.00. Loss: 5.53. Accuracy: 29.49% [best: 29.49]%[0m
+[training] Epoch: 41.26. Loss: 2.82. Accuracy: 63.15% [0m
+[training] Epoch: 41.53. Loss: 2.81. Accuracy: 63.49% [0m
+[training] Epoch: 41.79. Loss: 2.82. Accuracy: 63.43% [0m
+[92m[training] Epoch: 42.00. Loss: 2.82. Accuracy: 63.46% [0m
+[92m[validation] Epoch: 42.00. Loss: 5.53. Accuracy: 28.89% [best: 29.49]%[0m
+[training] Epoch: 42.26. Loss: 2.75. Accuracy: 63.28% [0m
+[training] Epoch: 42.53. Loss: 2.76. Accuracy: 63.07% [0m
+[training] Epoch: 42.79. Loss: 2.81. Accuracy: 61.77% [0m
+[92m[training] Epoch: 43.00. Loss: 2.83. Accuracy: 61.41% [0m
+[92m[validation] Epoch: 43.00. Loss: 5.51. Accuracy: 29.29% [best: 29.49]%[0m
+[training] Epoch: 43.26. Loss: 2.77. Accuracy: 65.76% [0m
+[training] Epoch: 43.53. Loss: 2.78. Accuracy: 66.26% [0m
+[training] Epoch: 43.79. Loss: 2.81. Accuracy: 65.43% [0m
+[92m[training] Epoch: 44.00. Loss: 2.81. Accuracy: 65.12% [0m
+[92m[validation] Epoch: 44.00. Loss: 5.55. Accuracy: 29.29% [best: 29.49]%[0m
+[training] Epoch: 44.26. Loss: 2.75. Accuracy: 65.23% [0m
+[training] Epoch: 44.53. Loss: 2.77. Accuracy: 66.12% [0m
+[training] Epoch: 44.79. Loss: 2.79. Accuracy: 65.04% [0m
+[92m[training] Epoch: 45.00. Loss: 2.80. Accuracy: 64.65% [0m
+[92m[validation] Epoch: 45.00. Loss: 5.52. Accuracy: 28.69% [best: 29.49]%[0m
+[training] Epoch: 45.26. Loss: 2.80. Accuracy: 65.36% [0m
+[training] Epoch: 45.53. Loss: 2.80. Accuracy: 65.98% [0m
+[training] Epoch: 45.79. Loss: 2.83. Accuracy: 65.92% [0m
+[92m[training] Epoch: 46.00. Loss: 2.81. Accuracy: 65.97% [0m
+[92m[validation] Epoch: 46.00. Loss: 5.54. Accuracy: 28.69% [best: 29.49]%[0m
+[training] Epoch: 46.26. Loss: 2.75. Accuracy: 63.28% [0m
+[training] Epoch: 46.53. Loss: 2.79. Accuracy: 64.20% [0m
+[training] Epoch: 46.79. Loss: 2.79. Accuracy: 64.79% [0m
+[92m[training] Epoch: 47.00. Loss: 2.80. Accuracy: 64.74% [0m
+[92m[validation] Epoch: 47.00. Loss: 5.53. Accuracy: 28.69% [best: 29.49]%[0m
+[training] Epoch: 47.26. Loss: 2.82. Accuracy: 64.84% [0m
+[training] Epoch: 47.53. Loss: 2.78. Accuracy: 64.06% [0m
+[training] Epoch: 47.79. Loss: 2.80. Accuracy: 63.23% [0m
+[92m[training] Epoch: 48.00. Loss: 2.81. Accuracy: 63.16% [0m
+[92m[validation] Epoch: 48.00. Loss: 5.56. Accuracy: 28.08% [best: 29.49]%[0m
+[training] Epoch: 48.26. Loss: 2.81. Accuracy: 62.11% [0m
+[training] Epoch: 48.53. Loss: 2.80. Accuracy: 62.78% [0m
+[training] Epoch: 48.79. Loss: 2.78. Accuracy: 63.87% [0m
+[92m[training] Epoch: 49.00. Loss: 2.78. Accuracy: 63.97% [0m
+[92m[validation] Epoch: 49.00. Loss: 5.56. Accuracy: 28.48% [best: 29.49]%[0m
+[training] Epoch: 49.26. Loss: 2.79. Accuracy: 66.28% [0m
+[training] Epoch: 49.53. Loss: 2.74. Accuracy: 67.19% [0m
+[training] Epoch: 49.79. Loss: 2.75. Accuracy: 67.09% [0m
+[92m[training] Epoch: 50.00. Loss: 2.76. Accuracy: 66.27% [0m
+[92m[validation] Epoch: 50.00. Loss: 5.57. Accuracy: 28.69% [best: 29.49]%[0m
+[training] Epoch: 50.26. Loss: 2.75. Accuracy: 65.62% [0m
+[training] Epoch: 50.53. Loss: 2.79. Accuracy: 64.42% [0m
+[training] Epoch: 50.79. Loss: 2.77. Accuracy: 65.92% [0m
+[92m[training] Epoch: 51.00. Loss: 2.77. Accuracy: 66.10% [0m
+[92m[validation] Epoch: 51.00. Loss: 5.55. Accuracy: 28.48% [best: 29.49]%[0m
+[training] Epoch: 51.26. Loss: 2.72. Accuracy: 65.76% [0m
+[training] Epoch: 51.53. Loss: 2.75. Accuracy: 64.63% [0m
+[training] Epoch: 51.79. Loss: 2.78. Accuracy: 63.43% [0m
+[92m[training] Epoch: 52.00. Loss: 2.78. Accuracy: 63.71% [0m
+[92m[validation] Epoch: 52.00. Loss: 5.56. Accuracy: 28.28% [best: 29.49]%[0m
+[training] Epoch: 52.26. Loss: 2.73. Accuracy: 65.10% [0m
+[training] Epoch: 52.53. Loss: 2.73. Accuracy: 65.84% [0m
+[training] Epoch: 52.79. Loss: 2.74. Accuracy: 65.48% [0m
+[92m[training] Epoch: 53.00. Loss: 2.74. Accuracy: 65.93% [0m
+[92m[validation] Epoch: 53.00. Loss: 5.57. Accuracy: 28.69% [best: 29.49]%[0m
+[training] Epoch: 53.26. Loss: 2.78. Accuracy: 64.84% [0m
+[training] Epoch: 53.53. Loss: 2.78. Accuracy: 63.99% [0m
+[training] Epoch: 53.79. Loss: 2.76. Accuracy: 64.99% [0m
+[92m[training] Epoch: 54.00. Loss: 2.75. Accuracy: 65.50% [0m
+[92m[validation] Epoch: 54.00. Loss: 5.56. Accuracy: 28.48% [best: 29.49]%[0m
+[training] Epoch: 54.26. Loss: 2.78. Accuracy: 65.76% [0m
+[training] Epoch: 54.53. Loss: 2.75. Accuracy: 64.42% [0m
+[training] Epoch: 54.79. Loss: 2.75. Accuracy: 65.09% [0m
+[92m[training] Epoch: 55.00. Loss: 2.74. Accuracy: 65.20% [0m
+[92m[validation] Epoch: 55.00. Loss: 5.57. Accuracy: 29.49% [best: 29.49]%[0m
+[training] Epoch: 55.26. Loss: 2.78. Accuracy: 65.62% [0m
+[training] Epoch: 55.53. Loss: 2.75. Accuracy: 66.19% [0m
+[training] Epoch: 55.79. Loss: 2.75. Accuracy: 66.80% [0m
+[92m[training] Epoch: 56.00. Loss: 2.74. Accuracy: 66.87% [0m
+[92m[validation] Epoch: 56.00. Loss: 5.56. Accuracy: 29.09% [best: 29.49]%[0m
+[training] Epoch: 56.26. Loss: 2.76. Accuracy: 66.02% [0m
+[training] Epoch: 56.53. Loss: 2.74. Accuracy: 65.77% [0m
+[training] Epoch: 56.79. Loss: 2.73. Accuracy: 66.55% [0m
+[92m[training] Epoch: 57.00. Loss: 2.73. Accuracy: 66.57% [0m
+[92m[validation] Epoch: 57.00. Loss: 5.57. Accuracy: 29.29% [best: 29.49]%[0m
+[training] Epoch: 57.26. Loss: 2.70. Accuracy: 64.32% [0m
+[training] Epoch: 57.53. Loss: 2.68. Accuracy: 64.91% [0m
+[training] Epoch: 57.79. Loss: 2.70. Accuracy: 65.48% [0m
+[92m[training] Epoch: 58.00. Loss: 2.72. Accuracy: 65.12% [0m
+[92m[validation] Epoch: 58.00. Loss: 5.58. Accuracy: 29.29% [best: 29.49]%[0m
+[training] Epoch: 58.26. Loss: 2.75. Accuracy: 64.19% [0m
+[training] Epoch: 58.53. Loss: 2.74. Accuracy: 65.27% [0m
+[training] Epoch: 58.79. Loss: 2.71. Accuracy: 66.21% [0m
+[92m[training] Epoch: 59.00. Loss: 2.70. Accuracy: 66.70% [0m
+[92m[validation] Epoch: 59.00. Loss: 5.56. Accuracy: 29.70% [best: 29.70]%[0m
+[training] Epoch: 59.26. Loss: 2.68. Accuracy: 65.23% [0m
+[training] Epoch: 59.53. Loss: 2.69. Accuracy: 65.13% [0m
+[training] Epoch: 59.79. Loss: 2.70. Accuracy: 65.97% [0m
+[92m[training] Epoch: 60.00. Loss: 2.71. Accuracy: 66.23% [0m
+[92m[validation] Epoch: 60.00. Loss: 5.56. Accuracy: 30.10% [best: 30.10]%[0m
+[training] Epoch: 60.26. Loss: 2.68. Accuracy: 66.93% [0m
+[training] Epoch: 60.53. Loss: 2.70. Accuracy: 67.26% [0m
+[training] Epoch: 60.79. Loss: 2.68. Accuracy: 67.72% [0m
+[92m[training] Epoch: 61.00. Loss: 2.70. Accuracy: 66.99% [0m
+[92m[validation] Epoch: 61.00. Loss: 5.57. Accuracy: 29.09% [best: 30.10]%[0m
+[training] Epoch: 61.26. Loss: 2.76. Accuracy: 64.45% [0m
+[training] Epoch: 61.53. Loss: 2.74. Accuracy: 64.91% [0m
+[training] Epoch: 61.79. Loss: 2.73. Accuracy: 65.62% [0m
+[92m[training] Epoch: 62.00. Loss: 2.72. Accuracy: 65.97% [0m
+[92m[validation] Epoch: 62.00. Loss: 5.57. Accuracy: 28.89% [best: 30.10]%[0m
+[training] Epoch: 62.26. Loss: 2.73. Accuracy: 66.80% [0m
+[training] Epoch: 62.53. Loss: 2.70. Accuracy: 66.41% [0m
+[training] Epoch: 62.79. Loss: 2.70. Accuracy: 66.26% [0m
+[92m[training] Epoch: 63.00. Loss: 2.70. Accuracy: 66.44% [0m
+[92m[validation] Epoch: 63.00. Loss: 5.56. Accuracy: 29.49% [best: 30.10]%[0m
+[training] Epoch: 63.26. Loss: 2.68. Accuracy: 68.10% [0m
+[training] Epoch: 63.53. Loss: 2.68. Accuracy: 67.12% [0m
+[training] Epoch: 63.79. Loss: 2.68. Accuracy: 67.68% [0m
+[92m[training] Epoch: 64.00. Loss: 2.67. Accuracy: 67.84% [0m
+[92m[validation] Epoch: 64.00. Loss: 5.59. Accuracy: 28.89% [best: 30.10]%[0m
+[training] Epoch: 64.26. Loss: 2.62. Accuracy: 68.88% [0m
+[training] Epoch: 64.53. Loss: 2.69. Accuracy: 66.55% [0m
+[training] Epoch: 64.79. Loss: 2.69. Accuracy: 66.26% [0m
+[92m[training] Epoch: 65.00. Loss: 2.68. Accuracy: 66.78% [0m
+[92m[validation] Epoch: 65.00. Loss: 5.59. Accuracy: 28.69% [best: 30.10]%[0m
+[training] Epoch: 65.26. Loss: 2.67. Accuracy: 66.28% [0m
+[training] Epoch: 65.53. Loss: 2.66. Accuracy: 66.69% [0m
+[training] Epoch: 65.79. Loss: 2.66. Accuracy: 66.80% [0m
+[92m[training] Epoch: 66.00. Loss: 2.66. Accuracy: 67.08% [0m
+[92m[validation] Epoch: 66.00. Loss: 5.59. Accuracy: 29.29% [best: 30.10]%[0m
+[training] Epoch: 66.26. Loss: 2.71. Accuracy: 68.23% [0m
+[training] Epoch: 66.53. Loss: 2.66. Accuracy: 69.39% [0m
+[training] Epoch: 66.79. Loss: 2.66. Accuracy: 69.09% [0m
+[92m[training] Epoch: 67.00. Loss: 2.66. Accuracy: 68.14% [0m
+[92m[validation] Epoch: 67.00. Loss: 5.57. Accuracy: 29.70% [best: 30.10]%[0m
+[training] Epoch: 67.26. Loss: 2.70. Accuracy: 67.06% [0m
+[training] Epoch: 67.53. Loss: 2.66. Accuracy: 66.55% [0m
+[training] Epoch: 67.79. Loss: 2.65. Accuracy: 67.72% [0m
+[92m[training] Epoch: 68.00. Loss: 2.66. Accuracy: 67.97% [0m
+[92m[validation] Epoch: 68.00. Loss: 5.57. Accuracy: 29.09% [best: 30.10]%[0m
+[training] Epoch: 68.26. Loss: 2.53. Accuracy: 70.96% [0m
+[training] Epoch: 68.53. Loss: 2.64. Accuracy: 69.32% [0m
+[training] Epoch: 68.79. Loss: 2.65. Accuracy: 68.26% [0m
+[92m[training] Epoch: 69.00. Loss: 2.65. Accuracy: 67.93% [0m
+[92m[validation] Epoch: 69.00. Loss: 5.57. Accuracy: 28.28% [best: 30.10]%[0m
+[training] Epoch: 69.26. Loss: 2.56. Accuracy: 69.40% [0m
+[training] Epoch: 69.53. Loss: 2.61. Accuracy: 68.39% [0m
+[training] Epoch: 69.79. Loss: 2.63. Accuracy: 68.07% [0m
+[92m[training] Epoch: 70.00. Loss: 2.66. Accuracy: 67.33% [0m
+[92m[validation] Epoch: 70.00. Loss: 5.58. Accuracy: 28.08% [best: 30.10]%[0m
+[training] Epoch: 70.26. Loss: 2.59. Accuracy: 67.97% [0m
+[training] Epoch: 70.53. Loss: 2.61. Accuracy: 67.40% [0m
+[training] Epoch: 70.79. Loss: 2.63. Accuracy: 67.33% [0m
+[92m[training] Epoch: 71.00. Loss: 2.63. Accuracy: 67.84% [0m
+[92m[validation] Epoch: 71.00. Loss: 5.55. Accuracy: 28.69% [best: 30.10]%[0m
+[training] Epoch: 71.26. Loss: 2.63. Accuracy: 66.28% [0m
+[training] Epoch: 71.53. Loss: 2.63. Accuracy: 67.54% [0m
+[training] Epoch: 71.79. Loss: 2.63. Accuracy: 67.48% [0m
+[92m[training] Epoch: 72.00. Loss: 2.63. Accuracy: 67.50% [0m
+[92m[validation] Epoch: 72.00. Loss: 5.57. Accuracy: 28.69% [best: 30.10]%[0m
+[training] Epoch: 72.26. Loss: 2.66. Accuracy: 68.75% [0m
+[training] Epoch: 72.53. Loss: 2.65. Accuracy: 69.18% [0m
+[training] Epoch: 72.79. Loss: 2.65. Accuracy: 68.41% [0m
+[92m[training] Epoch: 73.00. Loss: 2.64. Accuracy: 68.53% [0m
+[92m[validation] Epoch: 73.00. Loss: 5.56. Accuracy: 28.89% [best: 30.10]%[0m
+[training] Epoch: 73.26. Loss: 2.53. Accuracy: 70.57% [0m
+[training] Epoch: 73.53. Loss: 2.58. Accuracy: 69.03% [0m
+[training] Epoch: 73.79. Loss: 2.63. Accuracy: 68.12% [0m
+[92m[training] Epoch: 74.00. Loss: 2.62. Accuracy: 68.53% [0m
+[92m[validation] Epoch: 74.00. Loss: 5.56. Accuracy: 28.89% [best: 30.10]%[0m
+[training] Epoch: 74.26. Loss: 2.59. Accuracy: 70.05% [0m
+[training] Epoch: 74.53. Loss: 2.58. Accuracy: 70.17% [0m
+[training] Epoch: 74.79. Loss: 2.61. Accuracy: 69.73% [0m
+[92m[training] Epoch: 75.00. Loss: 2.61. Accuracy: 69.21% [0m
+[92m[validation] Epoch: 75.00. Loss: 5.59. Accuracy: 29.70% [best: 30.10]%[0m
+[training] Epoch: 75.26. Loss: 2.56. Accuracy: 70.44% [0m
+[training] Epoch: 75.53. Loss: 2.59. Accuracy: 69.60% [0m
+[training] Epoch: 75.79. Loss: 2.59. Accuracy: 69.34% [0m
+[92m[training] Epoch: 76.00. Loss: 2.60. Accuracy: 69.25% [0m
+[92m[validation] Epoch: 76.00. Loss: 5.59. Accuracy: 29.29% [best: 30.10]%[0m
+[training] Epoch: 76.26. Loss: 2.59. Accuracy: 65.23% [0m
+[training] Epoch: 76.53. Loss: 2.58. Accuracy: 67.68% [0m
+[training] Epoch: 76.79. Loss: 2.60. Accuracy: 68.12% [0m
+[92m[training] Epoch: 77.00. Loss: 2.59. Accuracy: 68.61% [0m
+[92m[validation] Epoch: 77.00. Loss: 5.60. Accuracy: 29.09% [best: 30.10]%[0m
+[training] Epoch: 77.26. Loss: 2.57. Accuracy: 71.35% [0m
+[training] Epoch: 77.53. Loss: 2.62. Accuracy: 69.60% [0m
+[training] Epoch: 77.79. Loss: 2.61. Accuracy: 70.21% [0m
+[92m[training] Epoch: 78.00. Loss: 2.61. Accuracy: 70.49% [0m
+[92m[validation] Epoch: 78.00. Loss: 5.60. Accuracy: 29.29% [best: 30.10]%[0m
+[training] Epoch: 78.26. Loss: 2.61. Accuracy: 71.35% [0m
+[training] Epoch: 78.53. Loss: 2.60. Accuracy: 70.95% [0m
+[training] Epoch: 78.79. Loss: 2.61. Accuracy: 69.63% [0m
+[92m[training] Epoch: 79.00. Loss: 2.60. Accuracy: 69.76% [0m
+[92m[validation] Epoch: 79.00. Loss: 5.61. Accuracy: 29.09% [best: 30.10]%[0m
+[training] Epoch: 79.26. Loss: 2.53. Accuracy: 73.31% [0m
+[training] Epoch: 79.53. Loss: 2.57. Accuracy: 71.66% [0m
+[training] Epoch: 79.79. Loss: 2.58. Accuracy: 70.36% [0m
+[92m[training] Epoch: 80.00. Loss: 2.57. Accuracy: 70.53% [0m
+[92m[validation] Epoch: 80.00. Loss: 5.58. Accuracy: 28.28% [best: 30.10]%[0m
+[training] Epoch: 80.26. Loss: 2.56. Accuracy: 70.96% [0m
+[training] Epoch: 80.53. Loss: 2.62. Accuracy: 69.25% [0m
+[training] Epoch: 80.79. Loss: 2.59. Accuracy: 69.82% [0m
+[92m[training] Epoch: 81.00. Loss: 2.59. Accuracy: 69.63% [0m
+[92m[validation] Epoch: 81.00. Loss: 5.59. Accuracy: 29.29% [best: 30.10]%[0m
+[training] Epoch: 81.26. Loss: 2.52. Accuracy: 71.22% [0m
+[training] Epoch: 81.53. Loss: 2.55. Accuracy: 70.88% [0m
+[training] Epoch: 81.79. Loss: 2.58. Accuracy: 70.31% [0m
+[92m[training] Epoch: 82.00. Loss: 2.59. Accuracy: 69.68% [0m
+[92m[validation] Epoch: 82.00. Loss: 5.58. Accuracy: 29.09% [best: 30.10]%[0m
+[training] Epoch: 82.26. Loss: 2.59. Accuracy: 69.79% [0m
+[training] Epoch: 82.53. Loss: 2.58. Accuracy: 69.60% [0m
+[training] Epoch: 82.79. Loss: 2.57. Accuracy: 70.12% [0m
+[92m[training] Epoch: 83.00. Loss: 2.57. Accuracy: 70.27% [0m
+[92m[validation] Epoch: 83.00. Loss: 5.60. Accuracy: 28.89% [best: 30.10]%[0m
+[training] Epoch: 83.26. Loss: 2.50. Accuracy: 71.74% [0m
+[training] Epoch: 83.53. Loss: 2.53. Accuracy: 70.67% [0m
+[training] Epoch: 83.79. Loss: 2.54. Accuracy: 71.58% [0m
+[92m[training] Epoch: 84.00. Loss: 2.56. Accuracy: 70.83% [0m
+[92m[validation] Epoch: 84.00. Loss: 5.60. Accuracy: 28.89% [best: 30.10]%[0m
+[training] Epoch: 84.26. Loss: 2.54. Accuracy: 69.01% [0m
+[training] Epoch: 84.53. Loss: 2.54. Accuracy: 68.82% [0m
+[training] Epoch: 84.79. Loss: 2.55. Accuracy: 69.14% [0m
+[92m[training] Epoch: 85.00. Loss: 2.56. Accuracy: 68.82% [0m
+[92m[validation] Epoch: 85.00. Loss: 5.60. Accuracy: 28.69% [best: 30.10]%[0m
+[training] Epoch: 85.26. Loss: 2.49. Accuracy: 71.88% [0m
+[training] Epoch: 85.53. Loss: 2.53. Accuracy: 70.38% [0m
+[training] Epoch: 85.79. Loss: 2.56. Accuracy: 70.21% [0m
+[92m[training] Epoch: 86.00. Loss: 2.55. Accuracy: 70.14% [0m
+[92m[validation] Epoch: 86.00. Loss: 5.62. Accuracy: 28.28% [best: 30.10]%[0m
+[training] Epoch: 86.26. Loss: 2.57. Accuracy: 69.53% [0m
+[training] Epoch: 86.53. Loss: 2.57. Accuracy: 68.89% [0m
+[training] Epoch: 86.79. Loss: 2.56. Accuracy: 69.29% [0m
+[92m[training] Epoch: 87.00. Loss: 2.55. Accuracy: 68.95% [0m
+[92m[validation] Epoch: 87.00. Loss: 5.59. Accuracy: 28.89% [best: 30.10]%[0m
+[training] Epoch: 87.26. Loss: 2.58. Accuracy: 70.96% [0m
+[training] Epoch: 87.53. Loss: 2.57. Accuracy: 70.10% [0m
+[training] Epoch: 87.79. Loss: 2.56. Accuracy: 70.17% [0m
+[92m[training] Epoch: 88.00. Loss: 2.56. Accuracy: 70.44% [0m
+[92m[validation] Epoch: 88.00. Loss: 5.62. Accuracy: 29.29% [best: 30.10]%[0m
+[training] Epoch: 88.26. Loss: 2.51. Accuracy: 70.44% [0m
+[training] Epoch: 88.53. Loss: 2.52. Accuracy: 70.45% [0m
+[training] Epoch: 88.79. Loss: 2.53. Accuracy: 70.31% [0m
+[92m[training] Epoch: 89.00. Loss: 2.54. Accuracy: 70.32% [0m
+[92m[validation] Epoch: 89.00. Loss: 5.62. Accuracy: 28.89% [best: 30.10]%[0m
+[training] Epoch: 89.26. Loss: 2.54. Accuracy: 71.22% [0m
+[training] Epoch: 89.53. Loss: 2.53. Accuracy: 71.59% [0m
+[training] Epoch: 89.79. Loss: 2.52. Accuracy: 72.22% [0m
+[92m[training] Epoch: 90.00. Loss: 2.52. Accuracy: 71.93% [0m
+[92m[validation] Epoch: 90.00. Loss: 5.61. Accuracy: 29.09% [best: 30.10]%[0m
+[training] Epoch: 90.26. Loss: 2.48. Accuracy: 71.88% [0m
+[training] Epoch: 90.53. Loss: 2.49. Accuracy: 71.59% [0m
+[training] Epoch: 90.79. Loss: 2.51. Accuracy: 71.19% [0m
+[92m[training] Epoch: 91.00. Loss: 2.52. Accuracy: 71.25% [0m
+[92m[validation] Epoch: 91.00. Loss: 5.63. Accuracy: 30.10% [best: 30.10]%[0m
+[training] Epoch: 91.26. Loss: 2.47. Accuracy: 72.40% [0m
+[training] Epoch: 91.53. Loss: 2.51. Accuracy: 71.31% [0m
+[training] Epoch: 91.79. Loss: 2.52. Accuracy: 71.34% [0m
+[92m[training] Epoch: 92.00. Loss: 2.52. Accuracy: 70.95% [0m
+[92m[validation] Epoch: 92.00. Loss: 5.61. Accuracy: 28.69% [best: 30.10]%[0m
+[training] Epoch: 92.26. Loss: 2.49. Accuracy: 73.05% [0m
+[training] Epoch: 92.53. Loss: 2.51. Accuracy: 72.23% [0m
+[training] Epoch: 92.79. Loss: 2.51. Accuracy: 72.66% [0m
+[92m[training] Epoch: 93.00. Loss: 2.51. Accuracy: 72.79% [0m
+[92m[validation] Epoch: 93.00. Loss: 5.61. Accuracy: 28.69% [best: 30.10]%[0m
+[training] Epoch: 93.26. Loss: 2.52. Accuracy: 72.01% [0m
+[training] Epoch: 93.53. Loss: 2.50. Accuracy: 72.09% [0m
+[training] Epoch: 93.79. Loss: 2.50. Accuracy: 71.68% [0m
+[92m[training] Epoch: 94.00. Loss: 2.50. Accuracy: 71.21% [0m
+[92m[validation] Epoch: 94.00. Loss: 5.63. Accuracy: 28.28% [best: 30.10]%[0m
+[training] Epoch: 94.26. Loss: 2.53. Accuracy: 68.88% [0m
+[training] Epoch: 94.53. Loss: 2.48. Accuracy: 71.09% [0m
+[training] Epoch: 94.79. Loss: 2.51. Accuracy: 70.90% [0m
+[92m[training] Epoch: 95.00. Loss: 2.51. Accuracy: 71.17% [0m
+[92m[validation] Epoch: 95.00. Loss: 5.63. Accuracy: 28.89% [best: 30.10]%[0m
+[training] Epoch: 95.26. Loss: 2.52. Accuracy: 69.92% [0m
+[training] Epoch: 95.53. Loss: 2.51. Accuracy: 70.53% [0m
+[training] Epoch: 95.79. Loss: 2.50. Accuracy: 71.14% [0m
+[92m[training] Epoch: 96.00. Loss: 2.50. Accuracy: 71.38% [0m
+[92m[validation] Epoch: 96.00. Loss: 5.63. Accuracy: 28.08% [best: 30.10]%[0m
+[training] Epoch: 96.26. Loss: 2.50. Accuracy: 72.40% [0m
+[training] Epoch: 96.53. Loss: 2.49. Accuracy: 71.45% [0m
+[training] Epoch: 96.79. Loss: 2.51. Accuracy: 70.02% [0m
+[92m[training] Epoch: 97.00. Loss: 2.51. Accuracy: 70.40% [0m
+[92m[validation] Epoch: 97.00. Loss: 5.62. Accuracy: 29.70% [best: 30.10]%[0m
+[training] Epoch: 97.26. Loss: 2.49. Accuracy: 71.09% [0m
+[training] Epoch: 97.53. Loss: 2.49. Accuracy: 72.73% [0m
+[training] Epoch: 97.79. Loss: 2.48. Accuracy: 73.24% [0m
+[92m[training] Epoch: 98.00. Loss: 2.48. Accuracy: 72.87% [0m
+[92m[validation] Epoch: 98.00. Loss: 5.64. Accuracy: 29.09% [best: 30.10]%[0m
+[training] Epoch: 98.26. Loss: 2.52. Accuracy: 70.96% [0m
+[training] Epoch: 98.53. Loss: 2.48. Accuracy: 71.24% [0m
+[training] Epoch: 98.79. Loss: 2.49. Accuracy: 71.68% [0m
+[92m[training] Epoch: 99.00. Loss: 2.48. Accuracy: 71.85% [0m
+[92m[validation] Epoch: 99.00. Loss: 5.65. Accuracy: 28.69% [best: 30.10]%[0m
+[training] Epoch: 99.26. Loss: 2.44. Accuracy: 69.79% [0m
+[training] Epoch: 99.53. Loss: 2.43. Accuracy: 71.80% [0m
+[training] Epoch: 99.79. Loss: 2.45. Accuracy: 72.27% [0m
+[92m[training] Epoch: 100.00. Loss: 2.46. Accuracy: 72.02% [0m
+[92m[validation] Epoch: 100.00. Loss: 5.63. Accuracy: 28.28% [best: 30.10]%[0m
+
+Fri Apr  7 21:33:59 UTC 2023
+validation:rgb:256:100:234:past_offset=0
+args Namespace(mode='validate', path_to_data='data/ek55', path_to_models='models/ek55', alpha=0.25, S_enc=6, S_ant=8, task='anticipation', img_tmpl='frame_{:010d}.jpg', modality='rgb', sequence_completion=False, num_class=234, hidden=256, feat_in=1024, feats_in=[1024, 1024, 352], dropout=0.8, batch_size=128, num_workers=0, lr=0.01, momentum=0.9, display_every=5, epochs=100, visdom=False, ignore_checkpoints=False, resume=False, ek100=False, json_directory=None, use_future_samples=False, meter='vm', past_offset=0.0)
+get_model: modality: rgb mode: validate
+model: num_class 234 , feat_in 1024 hidden 256 dropout 0.8 depth 1 sequence_completion False return_context False
+main: model with device cuda
+Loaded checkpoint for model <class 'models.RULSTM'>. Epoch: 60. Perf: 30.10.
+get_loader: loader for mode validation ; path to lmdb data/ek55/rgb
+get_loader: kargs {'path_to_lmdb': 'data/ek55/rgb', 'path_to_csv': 'data/ek55/validation.csv', 'time_step': 0.25, 'img_tmpl': 'frame_{:010d}.jpg', 'action_samples': None, 'past_features': True, 'sequence_length': 14, 'label_type': ['verb', 'noun', 'action'], 'challenge': False, 'use_future_samples': False, 'past_offset': 0.0}
+dataset init
+Populating Dataset:   0%|          | 0/497 [00:00<?, ?it/s]Populating Dataset:  37%|███▋      | 184/497 [00:00<00:00, 1839.34it/s]Populating Dataset:  74%|███████▍  | 368/497 [00:00<00:00, 1826.35it/s]Populating Dataset: 100%|██████████| 497/497 [00:00<00:00, 1816.48it/s]
+ds populate lists done; discarded 2 sequences
+dataset init done
+Evaluating...:   0%|          | 0/4 [00:00<?, ?it/s]Evaluating...:  25%|██▌       | 1/4 [00:00<00:00,  5.17it/s]Evaluating...: 100%|██████████| 4/4 [00:00<00:00, 13.45it/s]Evaluating...: 100%|██████████| 4/4 [00:00<00:00, 11.99it/s]
+                           2.0  1.75   1.5  1.25   1.0  0.75   0.5  0.25
+Verb   Top-1 Accuracy    29.90 29.90 31.52 30.10 30.91 33.54 36.77 34.55
+       Top-5 Accuracy    70.91 70.10 70.91 71.92 68.89 70.91 68.89 70.30
+       Mean Top-5 Recall 28.01 27.27 28.07 29.35 28.20 29.54 26.14 26.84
+Noun   Top-1 Accuracy    16.77 17.78 17.98 17.78 19.80 19.19 21.21 21.62
+       Top-5 Accuracy    35.35 37.98 37.17 37.98 39.19 40.61 42.22 43.03
+       Mean Top-5 Recall 28.28 30.78 27.72 28.95 29.81 31.31 32.47 34.67
+Action Top-1 Accuracy    10.30 10.71 11.11 11.72 13.13 12.93 15.76 15.35
+       Top-5 Accuracy    24.24 24.44 26.26 26.67 30.10 28.48 31.31 32.53
+       Mean Top-5 Recall 13.82 14.40 15.65 14.69 17.55 15.71 17.69 17.28
+
+Mean TtA(5): VERB: 1.52 NOUN: 0.92 ACTION: 0.71
+
+Fri Apr  7 21:34:08 UTC 2023
+done:rgb:256:100:234:past_offset=0

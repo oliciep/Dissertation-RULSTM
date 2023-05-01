@@ -43,4 +43,4 @@ dependencies:
     - six
     - torch
     - tqdm
-prefix: C:\users\leszek\anaconda3\envs\rulstm
+prefix: C:\users\oliver\anaconda3\envs\rulstm

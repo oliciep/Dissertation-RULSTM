@@ -86,7 +86,7 @@ class SequenceDataset(data.Dataset):
         self.img_tmpl = img_tmpl
         self.action_samples = action_samples
         self.use_future_samples = use_future_samples
-        # leszek: improve arg handling to perhpaps make it independent or check for compatibility instead of forcing
+        # todo: improve arg handling to perhpaps make it independent or check for compatibility instead of forcing
         if self.use_future_samples:
             self.action_samples = 1
         self.past_offset = past_offset
@@ -231,7 +231,7 @@ class SequenceDataset(data.Dataset):
             action_frames = self.action_frames[index]
             #print('action_frames', action_frames)
 
-        # leszek: if use_future_frames make past_frames a concatenation of both
+        # todo: if use_future_frames make past_frames a concatenation of both
         if self.use_future_samples:
             past_frames = np.concatenate((past_frames, action_frames), axis=0)
             #print('all_frames', past_frames)
