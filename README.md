@@ -10,7 +10,7 @@ This project is designed around the improvement and developmenet of the RULSTM a
 - Loss function experiments (MSE, Hinge, Kullback-Liebler and AVT) to increase efficiency.
 - Optimiser function experiments.
 - Observation Time optimisations from original architecture.
-- Integrating backbone from AVT architecture.
+- Integrating backbone technology from AVT architecture.
 
 ## Important Links
 Here are some key links to explore:
