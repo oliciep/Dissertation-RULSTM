@@ -2,7 +2,7 @@
 Grade Received: *1st (71%)* 🥇
 
 ## Overview
-This project is designed around the improvement and developmenet of the RULSTM architecture. I have tweaked the original architecture to increase efficiency and also introduce newer architectural technologies from the field (AVT). In addition, I carried out a number of experiments to foresee potential future research within the field of computer vision.
+This project is designed around the improvement and developmenet of the RULSTM architecture. I have tweaked the original architecture to increase efficiency and also introduce newer architectural technologies from the field (AVT). In addition, I carried out a number of experiments to explore potential future research within the field of computer vision, as detailed within the adjacent research paper.
 
 
 ## Features
